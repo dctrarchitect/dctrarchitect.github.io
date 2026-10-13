@@ -1,0 +1,53 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DART Architecture</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #ffffff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .logo-container {
+      max-width: 280px;
+      width: 60%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .logo-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .tagline {
+      margin-top: 28px;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #111111;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-container">
+    <img src="1080x1080 Siyah Logo kopya.svg" alt="DART Architecture">
+  </div>
+  <p class="tagline">Architecture & Design</p>
+
+</body>
+</html>

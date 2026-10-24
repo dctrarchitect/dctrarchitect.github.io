@@ -27,7 +27,15 @@
       --header-bg: #121212;
     }
     body {
-      background: linear-gradient(to right, #121212 0%, #121212 50%, var(--bg-color) 70%);
+      background: linear-gradient(to right, #121212 0%, #121212 50%, var(--bg-color) 70%);      
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
       /* Projeler sayfası ana konteynerı (İki sütunlu yapı) */
     .projects-container {
       flex: 1;
@@ -43,7 +51,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 80 150px;
+      padding: 80px 150px;
       gap: 80px;
       text-align: left;
       overflow-y: auto;
@@ -85,14 +93,6 @@
       object-fit: cover;
       object-position: 65% 50%;
       display: block;
-    }
-      color: var(--text-color);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
     }
     .site-header {
       background-color: var(--header-bg);

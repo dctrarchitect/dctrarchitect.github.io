@@ -57,6 +57,10 @@
       width: auto;
       display: block;
     }
+    .header-center a {
+  color: inherit;
+  text-decoration: none;
+}
     .header-center {
       position: absolute;
       left: 50%;
@@ -206,10 +210,11 @@
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-left">
-        <img src="../assets/logo/dartlogoheader.svg" alt="Dart Logo" class="top-logo">
-    </div>
+ <div class="header-left">
+  <a href="../" aria-label="Main Page">
+    <img src="../assets/logo/dartlogoheader.svg?v=3" alt="Dart Logo" class="top-logo">
+  </a>
+</div>
     <div class="header-center">
       <a href="../" aria-label="Main Page">
       <h1>DART Architecture</h1>

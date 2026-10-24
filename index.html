@@ -12,6 +12,29 @@
   <!-- Sosyal medya ikonları için FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* MOBİL EKRANLAR İÇİN DÜZELTMELER */
+    @media (max-width: 768px) {
+      .site-header {
+        padding: 0 16px; /* Mobilde 80px olan kenar boşluğunu 16px'e düşürüyoruz */
+      }
+      
+      .header-left .top-logo {
+        height: 18px; /* Sol logo mobilde daha kibar dursun diye küçültüldü */
+      }
+
+      .header-center h1 {
+        font-size: 10px; /* "DART ARCHITECTURE" yazısı dar ekrana sığması için küçültüldü */
+        letter-spacing: 0.1em;
+      }
+
+      .header-right {
+        gap: 10px; /* İkonlar arasındaki boşluğu daralttık */
+      }
+      
+      .header-right a {
+        font-size: 14px; /* İkon boyutları mobilde bir tık küçültüldü */
+      }
+    }
     * {
       margin: 0;
       padding: 0;

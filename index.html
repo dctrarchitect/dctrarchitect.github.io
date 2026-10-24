@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     * {
       margin: 0;
@@ -21,12 +22,6 @@
       --text-color: #121212;
       --header-bg: #000000;
     }
-    <script>
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobileMenu');
-      menu.classList.toggle('active');
-    }
-  </script>
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -35,35 +30,41 @@
       flex-direction: column;
       font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden; /* Sağdan menü açılırken ekranın kaymasını engeller */
     }
 
-    /* ÜST HEADER (SİYAH ŞERİT) - KUSURSUZ GRID SİSTEMİ */
+    /* ÜST HEADER - BİLGİSAYAR GÖRÜNÜMÜ */
     .site-header {
       background-color: var(--header-bg);
       color: #f5f5f7;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr; /* Sol (esnek), Orta (sabit merkez), Sağ (esnek) */
+      display: flex;
+      justify-content: space-between;
       align-items: center;
       height: 48px;
-      padding: 0 80px; /* Kenarlardan genel boşluk, logoyu ve ikonları içeri alır */
+      padding: 0 80px;
       width: 100%;
+      position: relative;
     }
     
     .header-left {
-      justify-self: start;
       display: flex;
       align-items: center;
+      z-index: 2;
     }
     
     .header-left .top-logo {
-      height: 48px;
+      height: 24px;
       width: auto;
       display: block;
     }
     
     .header-center {
-      justify-self: center; /* Yazıyı şeridin KESİN merkezine kilitler */
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       text-align: center;
+      z-index: 1;
+      white-space: nowrap;
     }
     
     .header-center h1 {
@@ -71,20 +72,13 @@
       font-weight: 600;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      white-space: nowrap;
-    }
-    
-    .header-center span {
-      font-size: 12px;
-      color: #999;
-      letter-spacing: 0.1em;
     }
     
     .header-right {
-      justify-self: end;
       display: flex;
       align-items: center;
       gap: 18px;
+      z-index: 2;
     }
     
     .header-right a {
@@ -95,6 +89,50 @@
     }
     
     .header-right a:hover {
+      opacity: 0.6;
+    }
+
+    /* MOBİL İÇİN HAMBURGER BUTONU VE AÇILIR MENÜ (GİZLİ BAŞLAR) */
+    .hamburger-btn {
+      display: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 48px; 
+      right: -100%; /* Ekran dışına sakla */
+      width: 250px;
+      height: calc(100vh - 48px);
+      background-color: #000000;
+      transition: right 0.3s ease-in-out;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+      border-top: 1px solid #222;
+    }
+
+    .mobile-menu-overlay.active {
+      right: 0; /* Butona basılınca ekrana girer */
+    }
+
+    .mobile-menu-overlay a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      transition: opacity 0.2s ease;
+    }
+    
+    .mobile-menu-overlay a:hover {
       opacity: 0.6;
     }
 
@@ -132,6 +170,7 @@
       letter-spacing: 0.28em;
       text-transform: uppercase;
       margin-bottom: 8px;
+      color: var(--text-color); /* Maviye dönmesini engellemek için rengi sabitledik */
     }
     
     .tagline {
@@ -157,112 +196,81 @@
       opacity: 0.5;
     }
 
-    /* MOBİL EKRANLAR İÇİN DÜZELTMELER - HER ZAMAN EN ALTTA OLMALIDIR */
-    @media (max-width: 768px) {
-      /* --- MOBİL MENÜ TEMEL STİLLERİ (GİZLİ DURUM) --- */
-    .hamburger-btn {
-      display: none; /* Bilgisayarda gizli */
-      color: #fff;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 1000;
-    }
-
-    .mobile-menu-overlay {
-      position: fixed;
-      top: 48px; /* Header'ın hemen altından başlar */
-      right: -100%; /* Ekranın sağında gizli bekler */
-      width: 250px;
-      height: calc(100vh - 48px);
-      background-color: #000000;
-      transition: right 0.3s ease-in-out; /* Kayarak gelme animasyonu */
-      z-index: 999;
-      display: flex;
-      flex-direction: column;
-      padding: 30px;
-    }
-
-    .mobile-menu-overlay.active {
-      right: 0; /* Butona basılınca ekrana girer */
-    }
-
-    .mobile-menu-content a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 16px;
-      margin-bottom: 24px;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-    }
-
-    /* --- MOBİL EKRAN KURALLARI (@media içine eklenenler) --- */
+    /* MOBİL EKRAN KURALLARI */
     @media (max-width: 768px) {
       .desktop-menu {
-        display: none !important; /* Mobilde o üç ikonu kesin olarak yokediyoruz */
+        display: none !important; /* Mobilde üç ikonu yok et */
       }
       .hamburger-btn {
-        display: block; /* Üç çizgiyi mobilde gösteriyoruz */
+        display: block; /* Hamburger butonunu göster */
         position: absolute;
-        right: 16px; /* Sağ köşeye sabitliyoruz */
+        right: 16px;
       }
-      
-      /* Eski mobil ayarların aynı kalacak (padding, font-size vs.) */
-      .site-header { padding: 0 16px; }
-      .header-center h1 { font-size: 11px; letter-spacing: 0.1em; }
-    }
       .site-header {
-        padding: 0 16px; /* Mobilde 80px olan kenar boşluğu sıfırlanıp 16px'e çekilir */
+        padding: 0 16px;
       }
       .header-left .top-logo {
-        height: 48px; /* Logo küçültülür */
+        height: 18px;
       }
       .header-center h1 {
-        font-size: 10px;
+        font-size: 11px;
         letter-spacing: 0.1em;
-      }
-      .header-center span {
-        display: none; 
-      }
-      .header-right {
-        gap: 10px; /* İkon boşlukları daraltılır */
-      }
-      .header-right a {
-        font-size: 14px; /* İkon boyutları küçültülür */
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- ÜST ŞERİT (HEADER) -->
   <header class="site-header">
+    <!-- Sol Logo -->
     <div class="header-left">
       <img src="dartlogoheader.svg" alt="Dart Logo" class="top-logo">
     </div>
+    
+    <!-- Orta Yazı -->
     <div class="header-center">
       <h1>DART Architecture</h1>
     </div>
-    <div class="header-right">
+
+    <!-- Sağ İkonlar (Sadece Bilgisayarda Görünür) -->
+    <div class="header-right desktop-menu">
       <a href="https://instagram.com/dctrart/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <!-- Dünya ikonu yerine Kalem (Blog) İkonu eklendi -->
+      <a href="https://blog.dctrart.com" target="_blank" aria-label="Dart Blog"><i class="fa-solid fa-pen-nib"></i></a>
       <a href="mailto:info@dctrart.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
-     <a href="https://dctrart.com" target="_blank" aria-label="Website"><i class="fa-solid fa-globe"></i></a>
-    </a>
+    </div>
+
+    <!-- Hamburger Butonu (Sadece Mobilde Görünür) -->
+    <div class="hamburger-btn" onclick="toggleMobileMenu()">
+      <i class="fa-solid fa-bars"></i>
     </div>
   </header>
 
-  <!-- ANA İÇERİK -->
+  <!-- SAĞDAN KAYARAK AÇILAN SİYAH MOBİL MENÜ -->
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <a href="https://instagram.com/dctrart/" target="_blank">Instagram</a>
+    <a href="https://blog.dctrart.com" target="_blank">Dart Blog</a>
+    <a href="mailto:info@dctrart.com">İletişim</a>
+  </div>
+
   <main class="main-content">
     <div class="logo-container">
       <img src="dartlogocons.svg" alt="DART Architecture">
     </div>
     
-    <h1 class="brand-title">We will be at your service very soon</h1>
+    <h1 class="brand-title">We will be at your service very soon!</h1>
     <p class="tagline">Architecture & Spatial Design</p>
 
     <a href="mailto:info@dctrart.com" class="contact-link">info@dctrart.com</a>
   </main>
+
+  <!-- Açılır Menü İşlevi İçin Gerekli Script -->
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+  </script>
 
 </body>
 </html>

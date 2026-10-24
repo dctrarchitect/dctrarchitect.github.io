@@ -1,1 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DART Architecture</title>
+  <meta name="theme-color" content="#121212">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="icon" type="image/svg+xml" href="assets/logo/dartlogocons.svg?v=2">
+  <link rel="apple-touch-icon" href="assets/logo/dartlogocons.svg?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+  <style>
+    html {
+      background-color: #121212;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --bg-color: #f5f5f7;
+      --text-color: #121212;
+      --header-bg: #000000;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .site-header {
+      background-color: var(--header-bg);
+      color: #f5f5f7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 48px;
+      padding: 0 80px;
+      width: 100%;
+      position: relative;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      z-index: 2;
+    }
+    .header-left .top-logo {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+    .header-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 1;
+      white-space: nowrap;
+    }
+    .header-center h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      z-index: 2;
+    }    
+    .header-right a {
+      color: #f5f5f7;
+      font-size: 16px;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }  
+    .header-right a:hover {
+      opacity: 0.6;
+    }
+    .hamburger-btn {
+      display: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .mobile-menu-overlay {
+      position: absolute;
+      top: 48px; 
+      left: 0;
+      width: 100%;
+      background-color: #000000;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      max-height: 0; 
+      transition: max-height 0.4s ease-in-out; 
+    }
+    .mobile-menu-overlay.active {
+      max-height: 250px; 
+      border-top: 1px solid #222;
+    }
+    .mobile-menu-overlay a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      margin: 0 24px;
+      padding: 16px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      border-bottom: 1px solid #222;
+      transition: opacity 0.2s ease;
+      text-align: center; /* Yazıları ortalar */
+    }
+    .mobile-menu-overlay a:first-child {
+      margin-top: 8px;
+    }
+    .mobile-menu-overlay a:last-child {
+      border-bottom: none;
+      margin-bottom: 12px;
+    }
+    .mobile-menu-overlay a:hover {
+      opacity: 0.6;
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .logo-container {
+      max-width: 260px;
+      width: 55%;
+      margin-bottom: 24px;
+      transition: transform 0.3s ease;
+    }
+    .logo-container:hover {
+      transform: scale(1.02);
+    }
+    .logo-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .brand-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: var(--text-color);
+    }
+    .tagline {
+      font-size: 8px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+    .contact-link {
+      margin-top: 36px;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-decoration: none;
+      color: var(--text-color);
+      border-bottom: 1px solid var(--text-color);
+      padding-bottom: 3px;
+      transition: opacity 0.2s ease;
+    }  
+    .contact-link:hover {
+      opacity: 0.5;
+    }
+    @media (max-width: 768px) {
+      .desktop-menu {
+        display: none !important;
+      }
+      .hamburger-btn {
+        display: block;
+        position: absolute;
+        right: 16px;
+      }
+      .site-header {
+        padding: 0 16px;
+      }
+      .header-left .top-logo {
+        height: 48px;
+      }
+      .header-center h1 {
+        font-size: 11px;
+        letter-spacing: 0.1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-left">
+      <a href="projects/" aria-label="Projects Lab">
+        <img src="assets/logo/dartlogoheader.svg?v=3" alt="Dart Logo" class="top-logo">
+      </a>
+    </div>
+    <div class="header-center">
+      <h1>DART Architecture</h1>
+    </div>
+    <div class="header-right desktop-menu">
+      <a href="https://instagram.com/dctrart/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://blog.dctrart.com" target="_blank" aria-label="Dart Blog"><i class="fa-solid fa-pen-nib"></i></a>
+      <a href="mailto:info@dctrart.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+    </div>
+    <div class="hamburger-btn" onclick="toggleMobileMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </header>
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <a href="https://instagram.com/dctrart/" target="_blank">Instagram</a>
+    <a href="https://blog.dctrart.com" target="_blank">Dart Blog</a>
+    <a href="mailto:info@dctrart.com">İletişim</a>
+  </div>
 
+  <main class="main-content">
+    <div class="logo-container">
+      <img src="assets/logo/dartlogocons.svg" alt="DART Architecture">
+    </div>
+    
+    <h1 class="brand-title">We will be at your service very soon</h1>
+    <p class="tagline">Architecture & Spatial Design</p>
+
+    <a href="mailto:info@dctrart.com" class="contact-link">info@dctrart.com</a>
+  </main>
+
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>

@@ -30,7 +30,7 @@
       flex-direction: column;
       font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden; /* Sağdan menü açılırken ekranın kaymasını engeller */
+      overflow-x: hidden;
     }
 
     /* ÜST HEADER - BİLGİSAYAR GÖRÜNÜMÜ */
@@ -92,7 +92,7 @@
       opacity: 0.6;
     }
 
-    /* MOBİL İÇİN HAMBURGER BUTONU VE AÇILIR MENÜ (GİZLİ BAŞLAR) */
+    /* MOBİL İÇİN HAMBURGER BUTONU VE AŞAĞI UZAYAN MENÜ */
     .hamburger-btn {
       display: none;
       color: #fff;
@@ -102,34 +102,44 @@
     }
 
     .mobile-menu-overlay {
-      position: fixed;
-      top: 48px; 
-      right: -100%; /* Ekran dışına sakla */
-      width: 250px;
-      height: calc(100vh - 48px);
+      position: absolute;
+      top: 48px; /* Header'ın bittiği 48. pikselden başlar */
+      left: 0;
+      width: 100%;
       background-color: #000000;
-      transition: right 0.3s ease-in-out;
       z-index: 999;
       display: flex;
       flex-direction: column;
-      padding: 30px;
-      border-top: 1px solid #222;
+      overflow: hidden; /* Kapalıyken içeriği gizler */
+      max-height: 0; /* Başlangıçta kapalı (0 yükseklik) */
+      transition: max-height 0.4s ease-in-out; /* Aşağı kayma animasyonu */
     }
 
     .mobile-menu-overlay.active {
-      right: 0; /* Butona basılınca ekrana girer */
+      max-height: 250px; /* Butona basılınca yüksekliği artırır */
+      border-top: 1px solid #222;
     }
 
     .mobile-menu-overlay a {
       color: #fff;
       text-decoration: none;
-      font-size: 14px;
-      margin-bottom: 24px;
+      font-size: 13px;
+      margin: 0 24px;
+      padding: 16px 0;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
+      letter-spacing: 0.2em;
+      border-bottom: 1px solid #222;
       transition: opacity 0.2s ease;
+      text-align: center; /* Yazıları ortalar */
+    }
+    
+    .mobile-menu-overlay a:first-child {
+      margin-top: 8px;
+    }
+    
+    .mobile-menu-overlay a:last-child {
+      border-bottom: none;
+      margin-bottom: 12px;
     }
     
     .mobile-menu-overlay a:hover {
@@ -170,7 +180,7 @@
       letter-spacing: 0.28em;
       text-transform: uppercase;
       margin-bottom: 8px;
-      color: var(--text-color); /* Maviye dönmesini engellemek için rengi sabitledik */
+      color: var(--text-color);
     }
     
     .tagline {
@@ -199,10 +209,10 @@
     /* MOBİL EKRAN KURALLARI */
     @media (max-width: 768px) {
       .desktop-menu {
-        display: none !important; /* Mobilde üç ikonu yok et */
+        display: none !important;
       }
       .hamburger-btn {
-        display: block; /* Hamburger butonunu göster */
+        display: block;
         position: absolute;
         right: 16px;
       }
@@ -210,7 +220,7 @@
         padding: 0 16px;
       }
       .header-left .top-logo {
-        height: 48px;
+        height: 48px; /* Logoya karışmadım, ana ayarlarda 24px duruyor, istersen buradaki 18px değerini silebilirsin */
       }
       .header-center h1 {
         font-size: 11px;
@@ -222,31 +232,28 @@
 <body>
 
   <header class="site-header">
-    <!-- Sol Logo -->
     <div class="header-left">
       <img src="dartlogoheader.svg" alt="Dart Logo" class="top-logo">
     </div>
     
-    <!-- Orta Yazı -->
     <div class="header-center">
       <h1>DART Architecture</h1>
     </div>
 
-    <!-- Sağ İkonlar (Sadece Bilgisayarda Görünür) -->
+    <!-- Sağ İkonlar (Bilgisayar) -->
     <div class="header-right desktop-menu">
       <a href="https://instagram.com/dctrart/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-      <!-- Dünya ikonu yerine Kalem (Blog) İkonu eklendi -->
       <a href="https://blog.dctrart.com" target="_blank" aria-label="Dart Blog"><i class="fa-solid fa-pen-nib"></i></a>
       <a href="mailto:info@dctrart.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
     </div>
 
-    <!-- Hamburger Butonu (Sadece Mobilde Görünür) -->
+    <!-- Hamburger Butonu (Mobil) -->
     <div class="hamburger-btn" onclick="toggleMobileMenu()">
       <i class="fa-solid fa-bars"></i>
     </div>
   </header>
 
-  <!-- SAĞDAN KAYARAK AÇILAN SİYAH MOBİL MENÜ -->
+  <!-- AŞAĞI UZAYAN SİYAH MOBİL MENÜ -->
   <div class="mobile-menu-overlay" id="mobileMenu">
     <a href="https://instagram.com/dctrart/" target="_blank">Instagram</a>
     <a href="https://blog.dctrart.com" target="_blank">Dart Blog</a>
@@ -264,7 +271,6 @@
     <a href="mailto:info@dctrart.com" class="contact-link">info@dctrart.com</a>
   </main>
 
-  <!-- Açılır Menü İşlevi İçin Gerekli Script -->
   <script>
     function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');

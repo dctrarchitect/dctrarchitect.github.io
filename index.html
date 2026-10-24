@@ -21,6 +21,12 @@
       --text-color: #121212;
       --header-bg: #000000;
     }
+    <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+  </script>
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -241,9 +247,8 @@
     <div class="header-right">
       <a href="https://instagram.com/dctrart/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
       <a href="mailto:info@dctrart.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
-      <a href="https://blog.dctrart.com" aria-label="Dart Blog">
-      <img src="dartlogoblog.svg" alt="Blog" style="height: 48px; width: auto; filter: invert(1);"> 
-        </a>
+      <a href="https://blog.dctrart.com" aria-label="Dart Blog"></a>
+      <img src="dartlogoblog.svg" alt="Blog" style="height: 48px; width: auto; filter: invert(1);"></a>
     </div>
   </header>
 

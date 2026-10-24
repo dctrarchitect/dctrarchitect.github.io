@@ -42,10 +42,11 @@
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       padding: 60 100px;
       gap: 32px;
       text-align: left;
+      overflow-y: auto;
     }
     /* Proje başlık öğesi */
     .project-item {
@@ -71,19 +72,11 @@
       text-transform: uppercase;
     }
     /* Sağ Taraf: Görsel Vitrini */
-    .project-viewer {
-      width: 100%; 
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: right;
-      padding: 0px;
-    }
     .project-viewer img {
-      max-width: 80%;
-      max-height: 80vh;
-      object-fit: cover;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      width: 100%;
+      height: 100%;
+      object-position: 65% 50%;
+      display: block;
     }
       color: var(--text-color);
       min-height: 100vh;

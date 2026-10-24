@@ -153,6 +153,59 @@
 
     /* MOBİL EKRANLAR İÇİN DÜZELTMELER - HER ZAMAN EN ALTTA OLMALIDIR */
     @media (max-width: 768px) {
+      /* --- MOBİL MENÜ TEMEL STİLLERİ (GİZLİ DURUM) --- */
+    .hamburger-btn {
+      display: none; /* Bilgisayarda gizli */
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 48px; /* Header'ın hemen altından başlar */
+      right: -100%; /* Ekranın sağında gizli bekler */
+      width: 250px;
+      height: calc(100vh - 48px);
+      background-color: #000000;
+      transition: right 0.3s ease-in-out; /* Kayarak gelme animasyonu */
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+    }
+
+    .mobile-menu-overlay.active {
+      right: 0; /* Butona basılınca ekrana girer */
+    }
+
+    .mobile-menu-content a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+
+    /* --- MOBİL EKRAN KURALLARI (@media içine eklenenler) --- */
+    @media (max-width: 768px) {
+      .desktop-menu {
+        display: none !important; /* Mobilde o üç ikonu kesin olarak yokediyoruz */
+      }
+      .hamburger-btn {
+        display: block; /* Üç çizgiyi mobilde gösteriyoruz */
+        position: absolute;
+        right: 16px; /* Sağ köşeye sabitliyoruz */
+      }
+      
+      /* Eski mobil ayarların aynı kalacak (padding, font-size vs.) */
+      .site-header { padding: 0 16px; }
+      .header-center h1 { font-size: 11px; letter-spacing: 0.1em; }
+    }
       .site-header {
         padding: 0 16px; /* Mobilde 80px olan kenar boşluğu sıfırlanıp 16px'e çekilir */
       }
@@ -189,7 +242,7 @@
       <a href="https://instagram.com/dctrart/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
       <a href="mailto:info@dctrart.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
       <a href="https://blog.dctrart.com" aria-label="Dart Blog">
-      <a img src="dartlogoblog.svg" alt="Blog" style="height: 48px; width: auto; filter: invert(1);"> 
+      <img src="dartlogoblog.svg" alt="Blog" style="height: 48px; width: auto; filter: invert(1);"> 
         </a>
     </div>
   </header>

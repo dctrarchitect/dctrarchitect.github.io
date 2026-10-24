@@ -27,7 +27,64 @@
       --header-bg: #121212;
     }
     body {
-      background: linear-gradient(to right, #121212 0%, #121212 45%, var(--bg-color) 70%);
+      background: linear-gradient(to right, #121212 0%, #121212 50%, var(--bg-color) 70%);
+      /* Projeler sayfası ana konteynerı (İki sütunlu yapı) */
+    .projects-container {
+      flex: 1;
+      display: flex;
+      width: 100%;
+      height: calc(100vh - 48px); /* Header yüksekliği düşülmüş tam ekran */
+      overflow: hidden;
+    }
+    /* Sol Taraf: Koyu Alan ve Başlıklar */
+    .projects-sidebar {
+      width: 40%; /* Ekranın sol %40'ı */
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 60px;
+      gap: 32px;
+      text-align: left;
+    }
+    /* Proje başlık öğesi */
+    .project-item {
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      opacity: 0.5; /* Pasif olanlar biraz silik durur */
+    }
+    /* Üzerine gelinen veya aktif olan proje */
+    .project-item:hover, .project-item.active {
+      opacity: 1; /* Tamamen net görünür */
+    }
+    .project-item h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 4px;
+      letter-spacing: 0.05em;
+    }
+    .project-item p {
+      font-size: 11px;
+      color: #999999;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    /* Sağ Taraf: Görsel Vitrini */
+    .project-viewer {
+      width: 60%; /* Ekranın sağ %60'ı */
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+    .project-viewer img {
+      max-width: 80%;
+      max-height: 80vh;
+      object-fit: cover;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
       color: var(--text-color);
       min-height: 100vh;
       display: flex;
@@ -211,8 +268,29 @@
     <a href="https://blog.dctrart.com" target="_blank">Dart Blog</a>
     <a href="mailto:info@dctrart.com">İletişim</a>
   </div>
-  </main>
+  <main class="projects-container">
+    <!-- SOL TARAF: Proje Başlıkları Listesi -->
+    <div class="projects-sidebar">
+      <div class="project-item active">
+        <h2>Mass Housing Project</h2>
+        <p>Hatay - 22.000 m² area</p>
+      </div>
+      <div class="project-item">
+        <h2>Wu Game House - Cafeteria</h2>
+        <p>İstanbul - Concept cafe design</p>
+      </div>
+      <div class="project-item">
+        <h2>Guitar Control and Production Studio</h2>
+        <p>İstanbul - Repurposing of the existing building</p>
+      </div>
+    </div>
 
+    <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı -->
+    <div class="project-viewer">
+      <!-- Buraya aktif olan projenin büyük görseli gelecek -->
+      <img src="../assets/logo/dartlogocons.svg" alt="Project Preview">
+    </div>
+  </main>
   <script>
     function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');

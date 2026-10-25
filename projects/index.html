@@ -52,7 +52,7 @@
       flex: 1;
       display: flex;
       width: 100%;
-      height: calc(100vh - 48px);
+      height: calc(100dvh - 48px);
       min-height: 0; /* Header yüksekliği düşülmüş tam ekran */
       overflow: hidden;
     }
@@ -63,7 +63,7 @@
       display: block;
       flex-direction: column;
       justify-content: flex-start;
-      padding: 80px 150px 120px 150px;
+      padding: 80px 100px 0px 100px;
       gap: 80px;
       text-align: left;
       overflow-y: auto;
@@ -86,7 +86,7 @@
       margin-bottom: 70px;
     }
     .project-item:last-child {
-      margin-bottom: 0;
+      margin-bottom: 50vh;
     }
     /* Üzerine gelinen veya aktif olan proje */
     .project-item:hover, .project-item.active {

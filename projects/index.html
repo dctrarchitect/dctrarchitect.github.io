@@ -54,7 +54,17 @@
       padding: 80px 150px;
       gap: 80px;
       text-align: left;
-      overflow-y: hidden;
+      overflow-y: auto;
+    }
+    .projects-sidebar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .projects-sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .projects-sidebar::-webkit-scrollbar-thumb {
+      background-color: #333333; 
+      border-radius: 10px;
     }
     /* Proje başlık öğesi */
     .project-item {

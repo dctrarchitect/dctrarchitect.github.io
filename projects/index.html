@@ -67,6 +67,11 @@
       gap: 80px;
       text-align: left;
       overflow-y: auto;
+      overscroll-behavior: contain;
+      direction: rtl;
+    }
+    .projects-sidebar > * {
+      direction: ltr;
     }
     .projects-sidebar::-webkit-scrollbar {
       width: 4px;
@@ -347,6 +352,15 @@
       const menu = document.getElementById('mobileMenu');
       menu.classList.toggle('active');
     }
+    const projectItems = document.querySelectorAll('.project-item');
+    projectItems.forEach(item => {
+      item.addEventListener('click', () => {
+      document.querySelector('.project-item.active')?.classList.remove('active');
+      item.classList.add('active');
+        // İLERİCİ NOT: Buraya ileride her projeye tıklandığında sağdaki görselin 
+        // değişmesini sağlayacak kodları (image source değişimi) ekleyeceğiz!
+        });
+    });
   </script>
 
 </body>

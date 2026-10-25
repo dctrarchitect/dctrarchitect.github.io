@@ -154,8 +154,9 @@
   letter-spacing: 0.1em;
   transition: color 0.2s ease;
 }
-    .sub-menu li:hover, .sub-menu li.active {
-  color: #fff;
+    .sub-menu li:hover, 
+    .sub-menu li.active {
+  color: #f5f5f7;
 }
     .content-display {
   font-size: 12px;
@@ -337,142 +338,180 @@
     <a href="https://blog.dctrart.com" target="_blank">Dart Blog</a>
     <a href="mailto:info@dctrart.com">İletişim</a>
   </div>
-  <main class="projects-container">
+ <main class="projects-container">
     <!-- SOL TARAF: Proje Başlıkları Listesi -->
     <div class="projects-sidebar">
-      <div class="project-item active">
+      
+      <!-- 1. Proje -->
+      <div class="project-item active" onclick="selectProject(this)">
         <h2>Mass Housing Project</h2>
         <p>Hatay - 22.000 m² area Social Building</p>
+        <div class="project-details">
+          <ul class="sub-menu">
+            <li class="sub-active" onclick="showContent(event, 'Bu proje, Hatay deprem bölgesindeki sosyal yaşamı yeniden canlandırmak ve toplumsal bağları güçlendirmek amacıyla tasarlanmış konut ve kamusal alan kompleksidir.')">Konsept Tasarımı</li>
+            <li onclick="showContent(event, 'Plan düzleminde avlu sistemleri, rüzgar koridorları ve esnek daire tipleri ön planda tutulmuştur. Kesitlerde ise kat yükseklikleri bölge iklimine göre optimize edilmiştir.')">Planlar ve Kesitler</li>
+            <li onclick="showContent(event, 'Cephe kabuğunda kullanılan yerel taş dokuları ve ahşap panellerin yüksek çözünürlüklü render görselleri.')">Görseller & Render</li>
+          </ul>
+          <div class="content-display">
+            <p class="active-text">Bu proje, Hatay deprem bölgesindeki sosyal yaşamı yeniden canlandırmak ve toplumsal bağları güçlendirmek amacıyla tasarlanmış konut ve kamusal alan kompleksidir.</p>
+          </div>
+        </div>
       </div>
-      <div class="project-item">
+
+      <!-- 2. Proje -->
+      <div class="project-item" onclick="selectProject(this)">
         <h2>Shaping Future Complex</h2>
         <p>İstanbul - Technology-Education Complex</p>
-        <!-- Gizli Alt Başlıklar ve İçerik Alanı -->
-  <div class="project-details">
-    <ul class="sub-menu">
-      <li onclick="showContent('konsept', event)">Konsept Tasarımı</li>
-      <li onclick="showContent('planlar', event)">Planlar ve Kesitler</li>
-      <li onclick="showContent('gorseller', event)">Görseller & Render</li>
-    </ul>
-    <div class="content-display">
-      <!-- Alt başlıklardan birine tıklandığında buraya ilgili metinler/açıklamalar gelecek -->
-      <p class="active-text">Projenin konsept aşaması ve genel yaklaşımı burada yer alacak.</p>
+        <div class="project-details">
+          <ul class="sub-menu">
+            <li class="sub-active" onclick="showContent(event, 'Geleceğin eğitim ve teknoloji merkezlerini tek bir çatı altında toplayan hibrit bir kampüs konsepti.')">Konsept Tasarımı</li>
+            <li onclick="showContent(event, 'Modüler derslikler, açık atölye alanları ve entegre sirkülasyon akslarına ait kat planları.')">Planlar ve Kesitler</li>
+            <li onclick="showContent(event, 'Kampüsün gece ve gündüz atmosferini yansıtan iç mekan ve dış cephe görselleştirmeleri.')">Görseller & Render</li>
+          </ul>
+          <div class="content-display">
+            <p class="active-text">Geleceğin eğitim ve teknoloji merkezlerini tek bir çatı altında toplayan hibrit bir kampüs konsepti.</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-      <div class="project-item">
+
+      <!-- 3. Proje -->
+      <div class="project-item" onclick="selectProject(this)">
         <h2>Pneuma</h2>
         <p>Muğla - Architectural Design Competition</p>
-        <!-- Gizli Alt Başlıklar ve İçerik Alanı -->
-  <div class="project-details">
-    <ul class="sub-menu">
-      <li onclick="showContent('konsept', event)">Konsept Tasarımı</li>
-      <li onclick="showContent('planlar', event)">Planlar ve Kesitler</li>
-      <li onclick="showContent('gorseller', event)">Görseller & Render</li>
-    </ul>
-    <div class="content-display">
-      <!-- Alt başlıklardan birine tıklandığında buraya ilgili metinler/açıklamalar gelecek -->
-      <p class="active-text">Projenin konsept aşaması ve genel yaklaşımı burada yer alacak.</p>
+        <div class="project-details">
+          <ul class="sub-menu">
+            <li class="sub-active" onclick="showContent(event, 'Doğa ile yapılı çevre arasında geçirgen bir sınır oluşturan yarışma projesi yaklaşımı.')">Konsept Tasarımı</li>
+            <li onclick="showContent('planlar', event)">Planlar ve Kesitler</li>
+            <li onclick="showContent('gorseller', event)">Görseller & Render</li>
+          </ul>
+          <div class="content-display">
+            <p class="active-text">Doğa ile yapılı çevre arasında geçirgen bir sınır oluşturan yarışma projesi yaklaşımı.</p>
+          </div>
+        </div>
       </div>
-   </div>
-  </div>
-      <div class="project-item">
+
+      <!-- 4. Proje -->
+      <div class="project-item" onclick="selectProject(this)">
         <h2>Chords & Chore</h2>
         <p>İstanbul - Repurposing of the existing building</p>
-        <!-- Gizli Alt Başlıklar ve İçerik Alanı -->
-  <div class="project-details">
-    <ul class="sub-menu">
-      <li onclick="showContent('konsept', event)">Konsept Tasarımı</li>
-      <li onclick="showContent('planlar', event)">Planlar ve Kesitler</li>
-      <li onclick="showContent('gorseller', event)">Görseller & Render</li>
-    </ul>
-    <div class="content-display">
-      <!-- Alt başlıklardan birine tıklandığında buraya ilgili metinler/açıklamalar gelecek -->
-      <p class="active-text">Projenin konsept aşaması ve genel yaklaşımı burada yer alacak.</p>
+        <div class="project-details">
+          <ul class="sub-menu">
+            <li class="sub-active" onclick="showContent(event, 'Eski bir endüstriyel yapının sanat ve dans merkezine dönüştürülme hikayesi.')">Konsept Tasarımı</li>
+            <li onclick="showContent(event, 'Mevcut yapının korunan aksları ve eklenen çelik konstrüksiyon kesit detayları.')">Planlar ve Kesitler</li>
+            <li onclick="showContent(event, 'Ham beton ve çelik dokuların bir arada kullanıldığı mekanların render çalışmaları.')">Görseller & Render</li>
+          </ul>
+          <div class="content-display">
+            <p class="active-text">Eski bir endüstriyel yapının sanat ve dans merkezine dönüştürülme hikayesi.</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-      <div class="project-item">
+
+      <!-- 5. Proje -->
+      <div class="project-item" onclick="selectProject(this)">
         <h2>Neighborhood Health Center</h2>
         <p>İstanbul - Etiler</p>
-        <!-- Gizli Alt Başlıklar ve İçerik Alanı -->
-  <div class="project-details">
-    <ul class="sub-menu">
-      <li onclick="showContent('konsept', event)">Konsept Tasarımı</li>
-      <li onclick="showContent('planlar', event)">Planlar ve Kesitler</li>
-      <li onclick="showContent('gorseller', event)">Görseller & Render</li>
-    </ul>
-    <div class="content-display">
-      <!-- Alt başlıklardan birine tıklandığında buraya ilgili metinler/açıklamalar gelecek -->
-      <p class="active-text">Projenin konsept aşaması ve genel yaklaşımı burada yer alacak.</p>
+        <div class="project-details">
+          <ul class="sub-menu">
+            <li class="sub-active" onclick="showContent(event, 'Etiler dokusuna uyum sağlayan, hastalar için huzurlu ve iyileştirici bir sağlık merkezi tasarımı.')">Konsept Tasarımı</li>
+            <li onclick="showContent(event, 'Tıbbi akış şemaları, poliklinik yerleşimleri ve steril zon planları.')">Planlar ve Kesitler</li>
+            <li onclick="showContent(event, 'İç mekan gün ışığı analizleri ve bekleme salonu görselleştirmeleri.')">Görseller & Render</li>
+          </ul>
+          <div class="content-display">
+            <p class="active-text">Etiler dokusuna uyum sağlayan, hastalar için iyileştirici bir sağlık merkezi tasarımı.</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-      <div class="project-item">
+
+      <!-- 6. Proje -->
+      <div class="project-item" onclick="selectProject(this)">
         <h2>Sefarat Exhibition House</h2>
         <p>İstanbul - Concept cafe design</p>
-        <!-- Gizli Alt Başlıklar ve İçerik Alanı -->
-  <div class="project-details">
-    <ul class="sub-menu">
-      <li onclick="showContent('konsept', event)">Konsept Tasarımı</li>
-      <li onclick="showContent('planlar', event)">Planlar ve Kesitler</li>
-      <li onclick="showContent('gorseller', event)">Görseller & Render</li>
-    </ul>
-    <div class="content-display">
-      <!-- Alt başlıklardan birine tıklandığında buraya ilgili metinler/açıklamalar gelecek -->
-      <p class="active-text">Projenin konsept aşaması ve genel yaklaşımı burada yer alacak.</p>
+        <div class="project-details">
+          <ul class="sub-menu">
+            <li class="sub-active" onclick="showContent(event, 'Kültürel mirası modern bir kafe ve sergi deneyimiyle buluşturan konsept çalışma.')">Konsept Tasarımı</li>
+            <li onclick="showContent(event, ' Sergi duvarları ve oturma düzeninin entegre edildiği zemin planı.')">Planlar ve Kesitler</li>
+            <li onclick="showContent(event, 'Aydınlatma detayları ve sergi objelerinin yerleşim renderları.')">Görseller & Render</li>
+          </ul>
+          <div class="content-display">
+            <p class="active-text">Kültürel mirası modern bir kafe ve sergi deneyimiyle buluşturan konsept çalışma.</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-      <div class="project-item">
+
+      <!-- 7. Proje -->
+      <div class="project-item" onclick="selectProject(this)">
         <h2>Heybeliada Summer House</h2>
         <p>İstanbul - Luxury Residential Design</p>
-        <!-- Gizli Alt Başlıklar ve İçerik Alanı -->
-  <div class="project-details">
-    <ul class="sub-menu">
-      <li onclick="showContent('konsept', event)">Konsept Tasarımı</li>
-      <li onclick="showContent('planlar', event)">Planlar ve Kesitler</li>
-      <li onclick="showContent('gorseller', event)">Görseller & Render</li>
-    </ul>
-    <div class="content-display">
-      <!-- Alt başlıklardan birine tıklandığında buraya ilgili metinler/açıklamalar gelecek -->
-      <p class="active-text">Projenin konsept aşaması ve genel yaklaşımı burada yer alacak.</p>
+        <div class="project-details">
+          <ul class="sub-menu">
+            <li class="sub-active" onclick="showContent(event, 'Adanın tarihi silüetine saygı duyan lüks ve sürdürülebilir konut mimarisi.')">Konsept Tasarımı</li>
+            <li onclick="showContent(event, 'Manzaraya yönelen teraslar ve ahşap cephe sistemleri yerleşim planı.')">Planlar ve Kesitler</li>
+            <li onclick="showContent(event, 'Gün batımı ışığında ada konutunun dış mekan ve peyzaj renderları.')">Görseller & Render</li>
+          </ul>
+          <div class="content-display">
+            <p class="active-text">Adanın tarihi silüetine saygı duyan lüks ve sürdürülebilir konut mimarisi.</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-      <div class="project-item">
-        <h2>Wu Game House - Cafeteria</h2>
-        <p>İstanbul - Concept cafe design</p>
-        <!-- Gizli Alt Başlıklar ve İçerik Alanı -->
-  <div class="project-details">
-    <ul class="sub-menu">
-      <li onclick="showContent('konsept', event)">Konsept Tasarımı</li>
-      <li onclick="showContent('planlar', event)">Planlar ve Kesitler</li>
-      <li onclick="showContent('gorseller', event)">Görseller & Render</li>
-    </ul>
-    <div class="content-display">
-      <!-- Alt başlıklardan birine tıklandığında buraya ilgili metinler/açıklamalar gelecek -->
-      <p class="active-text">Projenin konsept aşaması ve genel yaklaşımı burada yer alacak.</p>
-      </div>
-    </div>
-  </div>
-      <div class="project-item">
-        <h2>Wu Game House - Cafeteria</h2>
-        <p>İstanbul - Concept cafe design</p>
-        <!-- Gizli Alt Başlıklar ve İçerik Alanı -->
-  <div class="project-details">
-    <ul class="sub-menu">
-      <li onclick="showContent('konsept', event)">Konsept Tasarımı</li>
-      <li onclick="showContent('planlar', event)">Planlar ve Kesitler</li>
-      <li onclick="showContent('gorseller', event)">Görseller & Render</li>
-    </ul>
-    <div class="content-display">
-      <!-- Alt başlıklardan birine tıklandığında buraya ilgili metinler/açıklamalar gelecek -->
-      <p class="active-text">Projenin konsept aşaması ve genel yaklaşımı burada yer alacak.</p>
-      </div>
-    </div>
- </div>
 
+      <!-- 8. Proje -->
+      <div class="project-item" onclick="selectProject(this)">
+        <h2>Wu Game House - Cafeteria</h2>
+        <p>İstanbul - Concept cafe design</p>
+        <div class="project-details">
+          <ul class="sub-menu">
+            <li class="sub-active" onclick="showContent(event, 'Oyuncular için tasarlanmış, cyberpunk detaylar barındıran konsept kafe mekanı.')">Konsept Tasarımı</li>
+            <li onclick="showContent(event, 'Turnuva alanları ve kafe bölümlerinin akustik zonlama planları.')">Planlar ve Kesitler</li>
+            <li onclick="showContent/event, 'Neon ışıklar ve endüstriyel detaylarla zenginleştirilmiş iç mekan görselleri.')">Görseller & Render</li>
+          </ul>
+          <div class="content-display">
+            <p class="active-text">Oyuncular için tasarlanmış, cyberpunk detaylar barındıran konsept kafe mekanı.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı -->
+    <div class="project-viewer">
+      <!-- Buraya aktif olan projenin büyük görseli gelecek -->
+      <img src="../assets/logo/dartlogocons.svg" alt="Project Preview">
+    </div>
+  </main>
+
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    /* Proje Seçme ve Açma Fonksiyonu */
+    function selectProject(element) {
+      // Önce aktif olan eski projenin sınıfını kaldır
+      document.querySelector('.project-item.active')?.classList.remove('active');
+      // Tıklanan projeye aktif sınıfı ekle
+      element.classList.add('active');
+    }
+
+    /* Alt Başlıklara Tıklandığında Yazıyı Değiştirme Fonksiyonu */
+    function showContent(event, text) {
+      // Tıklamanın ana proje div'ini tetikleyip projeyi kapatıp açmasını engeller
+      event.stopPropagation();
+
+      // Tıklanan alt başlığın ait olduğu proje kutusunu bul
+      const projectItem = event.target.closest('.project-item');
+      
+      // O projenin içerisindeki eski aktif alt başlığın rengini normale döndür
+      projectItem.querySelector('.sub-menu li.sub-active')?.classList.remove('sub-active');
+      
+      // Tıklanan alt başlığa aktif renk sınıfını ekle
+      event.target.classList.add('sub-active');
+
+      // Yazı alanını bul ve metni güncelle
+      const displayParagraph = projectItem.querySelector('.content-display p');
+      displayParagraph.textContent = text;
+    }
+  </script>
     <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı -->
     <div class="project-viewer">
       <!-- Buraya aktif olan projenin büyük görseli gelecek -->

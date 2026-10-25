@@ -29,12 +29,23 @@
     body {
       background: linear-gradient(to right, #121212 0%, #121212 50%, var(--bg-color) 70%);      
       color: var(--text-color);
-      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
+    }
+    .site-header {
+      background-color: var(--header-bg);
+      color: #f5f5f7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex: 0 0 48px; /* Yüksekliğini 48px olarak sabitler, asssla esnemez veya daralmaz */
+      padding: 0 80px;
+      width: 100%;
+      z-index: 100; /* Her şeyin üstünde durmasını sağlar */
     }
       /* Projeler sayfası ana konteynerı (İki sütunlu yapı) */
     .projects-container {

@@ -133,7 +133,7 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
-    /* İllüstrasyon modundayken siyah erime maskesini tamamen kapatır */
+    /* İllüstrasyon modundayken siyah erime maskesini kapatır */
     .project-viewer.has-logo::after {
       opacity: 0;
     }
@@ -148,13 +148,14 @@
       top: 0;
       left: 0;
       z-index: 1;
-      transition: opacity 0.25s ease;
+      opacity: 1;
+      transition: opacity 0.25s ease-in-out;
     }
     /* İllüstrasyon Sabitleme (Sağ Alanın Ortası) */
     .project-viewer img.is-logo {
       object-fit: contain;
       object-position: center;
-      width: auto;
+      width: auto !important;
       height: 72vh !important;
       max-width: none !important; 
       max-height: none !important;
@@ -192,7 +193,7 @@
     }
     .sub-menu li:hover, 
     .sub-menu li.sub-active {
-      color: #ffffff;
+      color: #f5f5f7;
     }
     .content-display {
       font-size: 12px;
@@ -449,7 +450,7 @@
         <div class="project-details">
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Adanın tarihi silüetine saygı duyan lüks ve sürdürülebilir konut mimarisi.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Manzaraya yönelen teraslar ve ahşap cephe sistemleri yerleşim planı.')">Planlar ve Kesitler</li>
+            <li onclick="showContent(event, 'Manzaraya yönelen teraslar ve ahşap cephe sistemleri yerleşim planı.')">Planlar me Kesitler')">Planlar ve Kesitler</li>
             <li onclick="showContent(event, 'Gün batımı ışığında ada konutunun dış mekan ve peyzaj renderları.')">Görseller & Render</li>
           </ul>
           <div class="content-display">
@@ -476,63 +477,83 @@
 
     </div>
 
-    <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı (Başlangıç sınıfları eklendi) -->
+    <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı -->
     <div class="project-viewer has-logo">
       <img src="../assets/icon/dartidlewait.svg" alt="Project Preview" class="is-logo">
     </div>
   </main>
+
 <script>
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
     menu.classList.toggle('active');
   }
 
-  const DEFAULT_IMAGE = "../assets/logo/dartlogocons.svg";
+  const DEFAULT_IMAGE = "../assets/icon/dartidlewait.svg";
 
-  // Görsel ve Durum Yönetimi
+  // Yumuşak Geçişli Görsel ve Durum Yönetimi
   function setViewerImage(src) {
     const viewer = document.querySelector('.project-viewer');
     const viewerImg = document.querySelector('.project-viewer img');
     if (!viewerImg || !viewer) return;
 
-    // Eğer geçerli bir görsel yolu verilmişse onu yükle, yoksa veya geçersizse DEFAULT_IMAGE kullan
     const targetSrc = (src && typeof src === 'string' && src.trim() !== '' && !src.includes('dartidlewait.svg')) ? src : DEFAULT_IMAGE;
     const isLogoTarget = (targetSrc === DEFAULT_IMAGE);
 
-    viewerImg.src = targetSrc;
+    // 1. Görseli görünmez yap (Fade-out)
+    viewerImg.style.opacity = '0';
 
-    if (isLogoTarget) {
-      viewerImg.classList.add('is-logo');
-      viewer.classList.add('has-logo');
-    } else {
-      viewerImg.classList.remove('is-logo');
-      viewer.classList.remove('has-logo');
-    }
+    // 2. Kararma tamamlanınca boyut ve sınıf değişimini yap
+    setTimeout(() => {
+      viewerImg.src = targetSrc;
+
+      if (isLogoTarget) {
+        viewerImg.classList.add('is-logo');
+        viewer.classList.add('has-logo');
+      } else {
+        viewerImg.classList.remove('is-logo');
+        viewer.classList.remove('has-logo');
+      }
+
+      // 3. Değişiklikler bitince yumuşakça görünür yap (Fade-in)
+      setTimeout(() => {
+        viewerImg.style.opacity = isLogoTarget ? '0.95' : '1';
+      }, 50);
+    }, 200);
 
     viewerImg.onerror = () => {
       viewerImg.src = DEFAULT_IMAGE;
       viewerImg.classList.add('is-logo');
       viewer.classList.add('has-logo');
+      viewerImg.style.opacity = '0.95';
     };
   }
 
-  /* Projeler Arası Geçiş Yönetimi */
+  /* Projeler Arası Geçiş ve Akordiyon Kapatma Yönetimi */
   const projectItems = document.querySelectorAll('.project-item');
 
   projectItems.forEach(item => {
     item.addEventListener('click', (e) => {
-      // Alt menü elemanlarına tıklandıysa ana tıklamayı çalıştırma
+      // Alt menü öğelerine tıklandıysa ana tıklamayı pas geç
       if (e.target.tagName === 'LI') return;
 
-      document.querySelector('.project-item.active')?.classList.remove('active');
-      item.classList.add('active');
+      const isAlreadyActive = item.classList.contains('active');
 
-      // Aktif projenin altındaki seçili veya ilk li elemanını tetikle
-      const activeSubLi = item.querySelector('.sub-menu li.sub-active') || item.querySelector('.sub-menu li');
-      if (activeSubLi) {
-        activeSubLi.click();
-      } else {
+      if (isAlreadyActive) {
+        // Zaten açık olan projeye tıklandıysa: Kapat ve karakterlere dön
+        item.classList.remove('active');
         setViewerImage(DEFAULT_IMAGE);
+      } else {
+        // Farklı bir projeye tıklandıysa: Eski açık olanı kapat, yenisini aç
+        document.querySelector('.project-item.active')?.classList.remove('active');
+        item.classList.add('active');
+
+        const activeSubLi = item.querySelector('.sub-menu li.sub-active') || item.querySelector('.sub-menu li');
+        if (activeSubLi) {
+          activeSubLi.click();
+        } else {
+          setViewerImage(DEFAULT_IMAGE);
+        }
       }
     });
   });
@@ -551,7 +572,6 @@
       displayParagraph.textContent = text;
     }
     
-    // imageSrc parametresi varsa resmi değiştirir, yoksa otomatik varsayılan illüstrasyona döner
     setViewerImage(imageSrc);
   }
 </script>

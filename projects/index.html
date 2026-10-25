@@ -49,7 +49,7 @@
     .projects-sidebar {
       width: 40%; /* Ekranın sol %40'ı */
       height: 100%;
-      display: flex;
+      display: block;
       flex-direction: column;
       justify-content: flex-start;
       padding: 80px 150px 120px 150px;
@@ -72,7 +72,10 @@
       cursor: pointer;
       transition: opacity 0.3s ease;
       opacity: 0.5; /* Pasif olanlar biraz silik durur */
-      flex-shrink: 0;
+      margin-bottom: 70px;
+    }
+    .project-item:last-child {
+      margin-bottom: 0;
     }
     /* Üzerine gelinen veya aktif olan proje */
     .project-item:hover, .project-item.active {

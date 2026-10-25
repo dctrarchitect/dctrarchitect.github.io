@@ -469,7 +469,7 @@
     });
 
     /* Alt Başlıklara Tıklandığında Yazıyı Değiştirme Fonksiyonu */
-    function showContent(event, text) {
+    function showContent(event, text, imageSrc) {
       event.stopPropagation(); // Projenin kapanıp açılmasını engeller
       
       const projectItem = event.target.closest('.project-item');
@@ -479,8 +479,10 @@
 
       const displayParagraph = projectItem.querySelector('.content-display p');
       displayParagraph.textContent = text;
+      
       if (imageSrc) {
         const viewerImg = document.querySelector('.project-viewer img');
+        if (viewerImg) {
         viewerImg.src = imageSrc;
       }
     }

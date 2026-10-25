@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -27,7 +27,7 @@
       --header-bg: #121212;
     }
     body {
-      background: linear-gradient(to right, #121212 0%, #121212 50%, var(--bg-color) 70%);      
+      background: linear-gradient(to right, #121212 0%, #121212 40%, var(--bg-color) 70%);     
       color: var(--text-color);
       height: 100dvh;
       display: flex;
@@ -47,7 +47,6 @@
       width: 100%;
       z-index: 100;
     }
-    /* Projeler sayfası ana konteynerı (İki sütunlu yapı) */
     .projects-container {
       flex: 1;
       display: flex;
@@ -56,7 +55,6 @@
       min-height: 0;
       overflow: hidden;
     }
-    /* Sol Taraf: Koyu Alan ve Başlıklar */
     .projects-sidebar {
       width: 40%;
       height: 100%;
@@ -80,7 +78,6 @@
       background-color: #333333; 
       border-radius: 10px;
     }
-    /* Proje başlık öğesi */
     .project-item {
       cursor: pointer;
       transition: opacity 0.3s ease;
@@ -112,7 +109,7 @@
       text-transform: uppercase;
     }
     
-    /* Sağ Taraf: Görsel Vitrini ve Gradyan Üzerinde Süzülme Efekti */
+    /* Sağ Vitrin */
     .project-viewer {
       width: 60%;
       height: 100%;
@@ -123,6 +120,7 @@
       justify-content: center;
       padding: 0px;
     }
+    /* Siyah erime maskesi (Sadece proje render'ında aktif) */
     .project-viewer::after {
       content: '';
       position: absolute;
@@ -133,13 +131,16 @@
       background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.75) 35%, transparent 100%);
       z-index: 10; 
       pointer-events: none;
+      transition: opacity 0.3s ease;
     }
+    /* İllüstrasyon modundayken siyah erime maskesini tamamen kapatır */
     .project-viewer.has-logo::after {
       opacity: 0;
     }
+    /* Standart Proje Görseli */
     .project-viewer img {
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       object-position: right center;
       display: block;
@@ -149,20 +150,22 @@
       z-index: 1;
       transition: opacity 0.4s ease;
     }
+    /* İllüstrasyon Sabitleme (Sağ Alanın Ortası) */
     .project-viewer img.is-logo {
       object-fit: contain;
       object-position: center;
       width: auto;
       height: auto;
-      max-width: 50%; 
-      max-height: 60%;
+      max-width: 45%; 
+      max-height: 55%;
       top: 50%;
-      left: 80%;  
+      left: 75% !important; /* Sağa tam kilitler */
       right: auto;
       transform: translate(-50%, -50%);
       filter: none; 
-      opacity: 0.85;
+      opacity: 0.9;
     }
+
     .project-details {
       max-height: 0;
       overflow: hidden;
@@ -473,9 +476,9 @@
 
     </div>
 
-    <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı -->
-    <div class="project-viewer">
-      <img src="../assets/icon/dartidlewait.svg" alt="Project Preview">
+    <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı (Başlangıç sınıfları eklendi) -->
+    <div class="project-viewer has-logo">
+      <img src="../assets/icon/dartidlewait.svg" alt="Project Preview" class="is-logo">
     </div>
   </main>
 
@@ -485,25 +488,29 @@
     menu.classList.toggle('active');
   }
 
-  const DEFAULT_IMAGE = "../assets/icon/dartidlewait.svg";
+  const DEFAULT_IMAGE = "../assets/logo/dartlogocons.svg";
 
-  // Görsel değiştirme ve hata yakalama fonksiyonu
+  // Görsel değiştirme ve durum yönetimi fonksiyonu
   function setViewerImage(src) {
+    const viewer = document.querySelector('.project-viewer');
     const viewerImg = document.querySelector('.project-viewer img');
-    if (!viewerImg) return;
+    if (!viewerImg || !viewer) return;
 
-    if (src && src.trim() !== '') {
+    // Gerçek proje görseli mi yoksa illüstrasyon mu kontrolü
+    if (src && src.trim() !== '' && !src.includes('dartidlewait.svg')) {
       viewerImg.src = src;
       viewerImg.classList.remove('is-logo');
+      viewer.classList.remove('has-logo'); // Proje resminde siyah erimeyi aç
     } else {
       viewerImg.src = DEFAULT_IMAGE;
       viewerImg.classList.add('is-logo');
+      viewer.classList.add('has-logo');    // İllüstrasyonda erimeyi kapat ve sağa kilitle
     }
 
-    // Herhangi bir yükleme hatasında otomatik logoya dön
     viewerImg.onerror = () => {
       viewerImg.src = DEFAULT_IMAGE;
       viewerImg.classList.add('is-logo');
+      viewer.classList.add('has-logo');
     };
   }
 

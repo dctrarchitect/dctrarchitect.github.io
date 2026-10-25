@@ -155,7 +155,7 @@
       object-fit: contain;
       object-position: center;
       width: auto;
-      height: auto;
+      height: 55vh !important;
       max-width: 65%; 
       max-height: 75%;
       top: 50%;
@@ -478,7 +478,7 @@
 
     <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı (Başlangıç sınıfları eklendi) -->
     <div class="project-viewer has-logo">
-      <img src="../assets/icon/dartidlewait.svg" alt="Project Preview" class="is-logo">
+      <img src="../assets/logo/dartlogocons.svg" alt="Project Preview" class="is-logo">
     </div>
   </main>
 <script>
@@ -487,73 +487,53 @@
     menu.classList.toggle('active');
   }
 
-  const DEFAULT_IMAGE = "../assets/logo/dartlogcons.svg";
+  const DEFAULT_IMAGE = "../assets/logo/dartlogocons.svg";
 
-  // Yumuşak Geçişli Görsel ve Durum Yönetimi
+  // Görsel ve Durum Yönetimi
   function setViewerImage(src) {
     const viewer = document.querySelector('.project-viewer');
     const viewerImg = document.querySelector('.project-viewer img');
     if (!viewerImg || !viewer) return;
-    const targetSrc = (src && src.trim() !== '' && !src.includes('dartidlewait.svg')) ? src : DEFAULT_IMAGE;
+
+    // Eğer geçerli bir görsel yolu verilmişse onu yükle, yoksa veya geçersizse DEFAULT_IMAGE kullan
+    const targetSrc = (src && typeof src === 'string' && src.trim() !== '' && !src.includes('dartidlewait.svg')) ? src : DEFAULT_IMAGE;
     const isLogoTarget = (targetSrc === DEFAULT_IMAGE);
-    // Zaten aynı görsel görüntüleniyorsa işlem yapma
-    if (viewerImg.getAttribute('data-current-src') === targetSrc) return;
-    viewerImg.setAttribute('data-current-src', targetSrc);
 
-    // 1. Görseli görünmez yap (Fade-out)
-    viewerImg.style.opacity = '0';
+    viewerImg.src = targetSrc;
 
-    // 2. Kararma tamamlanınca (200ms) boyut ve sınıf değişimini gizlice arka planda yap
-    setTimeout(() => {
-      const tempImg = new Image();
-      tempImg.src = targetSrc;
+    if (isLogoTarget) {
+      viewerImg.classList.add('is-logo');
+      viewer.classList.add('has-logo');
+    } else {
+      viewerImg.classList.remove('is-logo');
+      viewer.classList.remove('has-logo');
+    }
 
-      const applyChanges = () => {
-        viewerImg.src = targetSrc;
-
-        if (isLogoTarget) {
-          viewerImg.classList.add('is-logo');
-          viewer.classList.add('has-logo');
-        } else {
-          viewerImg.classList.remove('is-logo');
-          viewer.classList.remove('has-logo');
-        }
-
-        // 3. Değişiklikler bittikten sonra yeni görseli yumuşakça aç (Fade-in)
-        setTimeout(() => {
-          viewerImg.style.opacity = isLogoTarget ? '0.9' : '1';
-        }, 50);
-      };
-
-      if (tempImg.complete) {
-        applyChanges();
-      } else {
-        tempImg.onload = applyChanges;
-        tempImg.onerror = applyChanges;
-      }
-    }, 200);
+    viewerImg.onerror = () => {
+      viewerImg.src = DEFAULT_IMAGE;
+      viewerImg.classList.add('is-logo');
+      viewer.classList.add('has-logo');
+    };
   }
 
-  /* Projeler Arası Geçiş */
+  /* Projeler Arası Geçiş Yönetimi */
   const projectItems = document.querySelectorAll('.project-item');
 
   projectItems.forEach(item => {
     item.addEventListener('click', (e) => {
+      // Alt menü elemanlarına tıklandıysa ana tıklamayı çalıştırma
       if (e.target.tagName === 'LI') return;
 
       document.querySelector('.project-item.active')?.classList.remove('active');
       item.classList.add('active');
 
+      // Aktif projenin altındaki seçili veya ilk li elemanını tetikle
       const activeSubLi = item.querySelector('.sub-menu li.sub-active') || item.querySelector('.sub-menu li');
-
-      if (activeSubLi && activeSubLi.getAttribute('onclick')) {
-        const match = activeSubLi.getAttribute('onclick').match(/,\s*['"]([^'"]+)['"]\s*\)/);
-        if (match && match[1]) {
-          setViewerImage(match[1]);
-          return;
-        }
+      if (activeSubLi) {
+        activeSubLi.click();
+      } else {
+        setViewerImage(DEFAULT_IMAGE);
       }
-      setViewerImage(DEFAULT_IMAGE);
     });
   });
 
@@ -571,6 +551,7 @@
       displayParagraph.textContent = text;
     }
     
+    // imageSrc parametresi varsa resmi değiştirir, yoksa otomatik varsayılan illüstrasyona döner
     setViewerImage(imageSrc);
   }
 </script>

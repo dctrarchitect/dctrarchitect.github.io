@@ -124,16 +124,16 @@
       padding: 0px;
     }
     .project-viewer::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 300px;
-  height: 100%;
-  background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.75) 35%, transparent 100%);
-  z-index: 10; 
-  pointer-events: none;
-}
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 100%;
+      background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.75) 35%, transparent 100%);
+      z-index: 10; 
+      pointer-events: none;
+    }
     .project-viewer img {
       max-width: 100%;
       max-height: 100%;
@@ -470,9 +470,30 @@
   }
 
   const DEFAULT_IMAGE = "../assets/logo/dartlogocons.svg";
+
+  // Görsel değiştirme ve hata yakalama fonksiyonu
+  function setViewerImage(src) {
+    const viewerImg = document.querySelector('.project-viewer img');
+    if (!viewerImg) return;
+
+    if (src && src.trim() !== '') {
+      viewerImg.src = src;
+      viewerImg.classList.remove('is-logo');
+    } else {
+      viewerImg.src = DEFAULT_IMAGE;
+      viewerImg.classList.add('is-logo');
+    }
+
+    // Herhangi bir yükleme hatasında otomatik logoya dön
+    viewerImg.onerror = () => {
+      viewerImg.src = DEFAULT_IMAGE;
+      viewerImg.classList.add('is-logo');
+    };
+  }
+
+  /* Projeler Arası Geçiş */
   const projectItems = document.querySelectorAll('.project-item');
 
-  /* Projeler Arası Geçiş ve Görsel Sıfırlama Yönetimi */
   projectItems.forEach(item => {
     item.addEventListener('click', (e) => {
       if (e.target.tagName === 'LI') return;
@@ -480,22 +501,16 @@
       document.querySelector('.project-item.active')?.classList.remove('active');
       item.classList.add('active');
 
-      const viewerImg = document.querySelector('.project-viewer img');
       const activeSubLi = item.querySelector('.sub-menu li.sub-active') || item.querySelector('.sub-menu li');
 
-      // Tıklanan projenin alt menüsünde resim yolu tanımlı mı kontrol et
       if (activeSubLi && activeSubLi.getAttribute('onclick')) {
         const match = activeSubLi.getAttribute('onclick').match(/,\s*['"]([^'"]+)['"]\s*\)/);
         if (match && match[1]) {
-          viewerImg.src = match[1];
+          setViewerImage(match[1]);
           return;
         }
       }
-
-      // Görsel tanımlanmamışsa varsayılan logoya sıfırla
-      if (viewerImg) {
-        viewerImg.src = DEFAULT_IMAGE;
-      }
+      setViewerImage(DEFAULT_IMAGE);
     });
   });
 
@@ -513,10 +528,7 @@
       displayParagraph.textContent = text;
     }
     
-    const viewerImg = document.querySelector('.project-viewer img');
-    if (viewerImg) {
-      viewerImg.src = imageSrc ? imageSrc : DEFAULT_IMAGE;
-    }
+    setViewerImage(imageSrc);
   }
 </script>
 

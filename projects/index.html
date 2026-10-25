@@ -346,7 +346,7 @@
       </div>
 
       <!-- 3. Proje -->
-      <div class="project-item">
+      <div class="project-item" onclick="selectProject(this, 'projects/images/pneuma.webp')">
         <h2>Pneuma</h2>
         <p>Muğla - Architectural Design Competition</p>
         <div class="project-details">
@@ -479,6 +479,10 @@
 
       const displayParagraph = projectItem.querySelector('.content-display p');
       displayParagraph.textContent = text;
+      if (imageSrc) {
+        const viewerImg = document.querySelector('.project-viewer img');
+        viewerImg.src = imageSrc;
+      }
     }
   </script>
 

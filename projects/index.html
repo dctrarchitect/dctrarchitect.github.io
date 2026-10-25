@@ -156,8 +156,8 @@
       object-position: center;
       width: auto;
       height: auto;
-      max-width: 45%; 
-      max-height: 55%;
+      max-width: 65%; 
+      max-height: 75%;
       top: 50%;
       left: 75% !important; /* Sağa tam kilitler */
       right: auto;
@@ -481,37 +481,57 @@
       <img src="../assets/icon/dartidlewait.svg" alt="Project Preview" class="is-logo">
     </div>
   </main>
-
 <script>
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
     menu.classList.toggle('active');
   }
 
-  const DEFAULT_IMAGE = "../assets/logo/dartlogocons.svg";
+  const DEFAULT_IMAGE = "../assets/logo/dartlogcons.svg";
 
-  // Görsel değiştirme ve durum yönetimi fonksiyonu
+  // Yumuşak Geçişli Görsel ve Durum Yönetimi
   function setViewerImage(src) {
     const viewer = document.querySelector('.project-viewer');
     const viewerImg = document.querySelector('.project-viewer img');
     if (!viewerImg || !viewer) return;
+    const targetSrc = (src && src.trim() !== '' && !src.includes('dartidlewait.svg')) ? src : DEFAULT_IMAGE;
+    const isLogoTarget = (targetSrc === DEFAULT_IMAGE);
+    // Zaten aynı görsel görüntüleniyorsa işlem yapma
+    if (viewerImg.getAttribute('data-current-src') === targetSrc) return;
+    viewerImg.setAttribute('data-current-src', targetSrc);
 
-    // Gerçek proje görseli mi yoksa illüstrasyon mu kontrolü
-    if (src && src.trim() !== '' && !src.includes('dartidlewait.svg')) {
-      viewerImg.src = src;
-      viewerImg.classList.remove('is-logo');
-      viewer.classList.remove('has-logo'); // Proje resminde siyah erimeyi aç
-    } else {
-      viewerImg.src = DEFAULT_IMAGE;
-      viewerImg.classList.add('is-logo');
-      viewer.classList.add('has-logo');    // İllüstrasyonda erimeyi kapat ve sağa kilitle
-    }
+    // 1. Görseli görünmez yap (Fade-out)
+    viewerImg.style.opacity = '0';
 
-    viewerImg.onerror = () => {
-      viewerImg.src = DEFAULT_IMAGE;
-      viewerImg.classList.add('is-logo');
-      viewer.classList.add('has-logo');
-    };
+    // 2. Kararma tamamlanınca (200ms) boyut ve sınıf değişimini gizlice arka planda yap
+    setTimeout(() => {
+      const tempImg = new Image();
+      tempImg.src = targetSrc;
+
+      const applyChanges = () => {
+        viewerImg.src = targetSrc;
+
+        if (isLogoTarget) {
+          viewerImg.classList.add('is-logo');
+          viewer.classList.add('has-logo');
+        } else {
+          viewerImg.classList.remove('is-logo');
+          viewer.classList.remove('has-logo');
+        }
+
+        // 3. Değişiklikler bittikten sonra yeni görseli yumuşakça aç (Fade-in)
+        setTimeout(() => {
+          viewerImg.style.opacity = isLogoTarget ? '0.9' : '1';
+        }, 50);
+      };
+
+      if (tempImg.complete) {
+        applyChanges();
+      } else {
+        tempImg.onload = applyChanges;
+        tempImg.onerror = applyChanges;
+      }
+    }, 200);
   }
 
   /* Projeler Arası Geçiş */

@@ -133,7 +133,7 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
-    /* İllüstrasyon modundayken siyah erime maskesini kapatır */
+    /* Vektör/Logo modundayken siyah erime maskesini kapatır */
     .project-viewer.has-logo::after {
       opacity: 0;
     }
@@ -151,8 +151,9 @@
       opacity: 1;
       transition: opacity 0.25s ease-in-out;
     }
-    /* İllüstrasyon Sabitleme (Sağ Alanın Ortası) */
-    .project-viewer img.is-logo {
+    
+    /* Durum 1: Bekleme Karakterleri (Hiçbir proje seçili değilken) */
+    .project-viewer img.is-idle {
       object-fit: contain;
       object-position: center;
       width: auto !important;
@@ -165,6 +166,22 @@
       transform: translate(-50%, -50%);
       filter: none; 
       opacity: 0.95;
+    }
+
+    /* Durum 2: Fotoğrafsız Proje Logosu (Proje açık ama resim yokken) */
+    .project-viewer img.is-logo {
+      object-fit: contain;
+      object-position: center;
+      width: auto !important;
+      height: auto !important;
+      max-width: 35% !important;
+      max-height: 45% !important;
+      top: 50%;
+      left: 75% !important;
+      right: auto;
+      transform: translate(-50%, -50%);
+      filter: none; 
+      opacity: 0.85;
     }
 
     .project-details {
@@ -354,7 +371,7 @@
         <div class="project-details">
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Bu proje, Hatay deprem bölgesindeki sosyal yaşamı yeniden canlandırmak ve toplumsal bağları güçlendirmek amacıyla tasarlanmış konut ve kamusal alan kompleksidir.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Plan düzleminde avlu sistemleri, rüzgar koridorları ve esnek daire tipleri ön planda tutulmuştur. Kesitlerde ise kat yükseklikleri bölge iklimine göre optimize edilmiştir.')">Planlar ve Kesitler</li>
+            <li onclick="showContent(event, 'Plan düzleminde avlu sistemleri, rüzgar koridorları ve esnek daire tipleri ön planda tutulmıştır. Kesitlerde ise kat yükseklikleri bölge iklimine göre optimize edilmiştir.')">Planlar ve Kesitler</li>
             <li onclick="showContent(event, 'Cephe kabuğunda kullanılan yerel taş dokuları ve ahşap panellerin yüksek çözünürlüklü render görselleri.')">Görseller & Render</li>
           </ul>
           <div class="content-display">
@@ -450,7 +467,7 @@
         <div class="project-details">
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Adanın tarihi silüetine saygı duyan lüks ve sürdürülebilir konut mimarisi.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Manzaraya yönelen teraslar ve ahşap cephe sistemleri yerleşim planı.')">Planlar me Kesitler')">Planlar ve Kesitler</li>
+            <li onclick="showContent(event, 'Manzaraya yönelen teraslar ve ahşap cephe sistemleri yerleşim planı.')">Planlar ve Kesitler</li>
             <li onclick="showContent(event, 'Gün batımı ışığında ada konutunun dış mekan ve peyzaj renderları.')">Görseller & Render</li>
           </ul>
           <div class="content-display">
@@ -477,9 +494,9 @@
 
     </div>
 
-    <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı -->
+    <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı (Başlangıçta Rölanti Karakterler Açık) -->
     <div class="project-viewer has-logo">
-      <img src="../assets/icon/dartidlewait.svg" alt="Project Preview" class="is-logo">
+      <img src="../assets/icon/dartidlewait.svg" alt="Project Preview" class="is-idle">
     </div>
   </main>
 
@@ -489,43 +506,60 @@
     menu.classList.toggle('active');
   }
 
-  const DEFAULT_IMAGE = "../assets/icon/dartidlewait.svg";
+  const IDLE_IMAGE = "../assets/icon/dartidlewait.svg"; // Rölanti (Karakterler)
+  const LOGO_IMAGE = "../assets/logo/dartlogocons.svg"; // Fotoğrafsız Proje Logosu
 
-  // Yumuşak Geçişli Görsel ve Durum Yönetimi
+  // Görsel ve Durum Yönetimi Fonksiyonu
   function setViewerImage(src) {
     const viewer = document.querySelector('.project-viewer');
     const viewerImg = document.querySelector('.project-viewer img');
     if (!viewerImg || !viewer) return;
 
-    const targetSrc = (src && typeof src === 'string' && src.trim() !== '' && !src.includes('dartidlewait.svg')) ? src : DEFAULT_IMAGE;
-    const isLogoTarget = (targetSrc === DEFAULT_IMAGE);
+    let targetSrc = src;
+    let mode = 'image'; // 'image', 'logo', 'idle'
 
-    // 1. Görseli görünmez yap (Fade-out)
+    // 1. Rölanti durumu kontrolü
+    if (src === 'idle' || src === IDLE_IMAGE) {
+      targetSrc = IDLE_IMAGE;
+      mode = 'idle';
+    } 
+    // 2. Fotoğrafsız proje logosu durumu kontrolü
+    else if (!src || typeof src !== 'string' || src.trim() === '' || src === LOGO_IMAGE) {
+      targetSrc = LOGO_IMAGE;
+      mode = 'logo';
+    }
+
+    // Kararma efekti (Fade-out)
     viewerImg.style.opacity = '0';
 
-    // 2. Kararma tamamlanınca boyut ve sınıf değişimini yap
     setTimeout(() => {
       viewerImg.src = targetSrc;
 
-      if (isLogoTarget) {
+      // Sınıfları temizle ve moda uygun olanı ekle
+      viewerImg.classList.remove('is-logo', 'is-idle');
+      
+      if (mode === 'idle') {
+        viewerImg.classList.add('is-idle');
+        viewer.classList.add('has-logo'); // Erime maskesini kapat
+      } else if (mode === 'logo') {
         viewerImg.classList.add('is-logo');
-        viewer.classList.add('has-logo');
+        viewer.classList.add('has-logo'); // Erime maskesini kapat
       } else {
-        viewerImg.classList.remove('is-logo');
-        viewer.classList.remove('has-logo');
+        viewer.classList.remove('has-logo'); // Fotoğrafta erime maskesini aç
       }
 
-      // 3. Değişiklikler bitince yumuşakça görünür yap (Fade-in)
+      // Aydınlanma efekti (Fade-in)
       setTimeout(() => {
-        viewerImg.style.opacity = isLogoTarget ? '0.95' : '1';
+        viewerImg.style.opacity = (mode === 'idle' || mode === 'logo') ? '0.95' : '1';
       }, 50);
     }, 200);
 
     viewerImg.onerror = () => {
-      viewerImg.src = DEFAULT_IMAGE;
+      viewerImg.src = LOGO_IMAGE;
+      viewerImg.classList.remove('is-idle');
       viewerImg.classList.add('is-logo');
       viewer.classList.add('has-logo');
-      viewerImg.style.opacity = '0.95';
+      viewerImg.style.opacity = '0.85';
     };
   }
 
@@ -534,17 +568,16 @@
 
   projectItems.forEach(item => {
     item.addEventListener('click', (e) => {
-      // Alt menü öğelerine tıklandıysa ana tıklamayı pas geç
       if (e.target.tagName === 'LI') return;
 
       const isAlreadyActive = item.classList.contains('active');
 
       if (isAlreadyActive) {
-        // Zaten açık olan projeye tıklandıysa: Kapat ve karakterlere dön
+        // Açık olan projeye tekrar basılınca: Kapat ve rölantiye (karakterlere) dön
         item.classList.remove('active');
-        setViewerImage(DEFAULT_IMAGE);
+        setViewerImage('idle');
       } else {
-        // Farklı bir projeye tıklandıysa: Eski açık olanı kapat, yenisini aç
+        // Başka projeye basılınca: Eski açık olanı kapat, yenisini aç
         document.querySelector('.project-item.active')?.classList.remove('active');
         item.classList.add('active');
 
@@ -552,7 +585,7 @@
         if (activeSubLi) {
           activeSubLi.click();
         } else {
-          setViewerImage(DEFAULT_IMAGE);
+          setViewerImage(LOGO_IMAGE);
         }
       }
     });
@@ -572,6 +605,7 @@
       displayParagraph.textContent = text;
     }
     
+    // imageSrc varsa resmi gösterir, yoksa otomatik LOGO_IMAGE (dartlogocons.svg) gösterir
     setViewerImage(imageSrc);
   }
 </script>

@@ -123,6 +123,17 @@
       justify-content: center;
       padding: 40px;
     }
+    .project-viewer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100%;
+  background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.75) 35%, transparent 100%);
+  z-index: 10; 
+  pointer-events: none;
+}
     .project-viewer img {
       max-width: 100%;
       max-height: 100%;
@@ -133,9 +144,6 @@
       top: 0;
       left: 0;
       z-index: 1;
-      /* Gradyanın üzerinde hafif bir derinlik hissi vermesi için modern gölge */
-      filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.08));
-      transform: translateX(60px);
       transition: opacity 0.4s ease;
     }
 

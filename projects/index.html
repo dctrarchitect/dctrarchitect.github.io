@@ -22,7 +22,7 @@
       box-sizing: border-box;
     }
     :root {
-      --bg-color: #121212;
+      --bg-color: #f5f5f7;
       --text-color: #121212;
       --header-bg: #121212;
     }
@@ -134,6 +134,9 @@
       z-index: 10; 
       pointer-events: none;
     }
+    .project-viewer.has-logo::after {
+      opacity: 0;
+    }
     .project-viewer img {
       max-width: 100%;
       max-height: 100%;
@@ -151,10 +154,10 @@
       object-position: center;
       width: auto;
       height: auto;
-      max-width: 35%;  /* Logonun büyüklüğü */
-      max-height: 35%;
+      max-width: 40%; 
+      max-height: 40%;
       top: 50%;
-      left: 65%;       /* LOGOYU SAĞA / SOLA KAYDIRMA AYARI (%50 tam orta, %65-%75 sağa yatık) */
+      left: 70%;  
       right: auto;
       transform: translate(-50%, -50%);
       filter: none; 

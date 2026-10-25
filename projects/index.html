@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -22,7 +22,7 @@
       box-sizing: border-box;
     }
     :root {
-      --bg-color: #f5f5f7;
+      --bg-color: #121212;
       --text-color: #121212;
       --header-bg: #121212;
     }
@@ -138,7 +138,7 @@
       max-width: 100%;
       max-height: 100%;
       object-fit: cover;
-      object-position: center;
+      object-position: right center;
       display: block;
       position: absolute;
       top: 0;
@@ -146,7 +146,20 @@
       z-index: 1;
       transition: opacity 0.4s ease;
     }
-
+    .project-viewer img.is-logo {
+      object-fit: contain;
+      object-position: center;
+      width: auto;
+      height: auto;
+      max-width: 35%;  /* Logonun büyüklüğü */
+      max-height: 35%;
+      top: 50%;
+      left: 65%;       /* LOGOYU SAĞA / SOLA KAYDIRMA AYARI (%50 tam orta, %65-%75 sağa yatık) */
+      right: auto;
+      transform: translate(-50%, -50%);
+      filter: none; 
+      opacity: 0.85;
+    }
     .project-details {
       max-height: 0;
       overflow: hidden;

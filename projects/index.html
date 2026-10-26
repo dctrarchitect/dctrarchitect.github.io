@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DART Projects</title>
+  <title>DART Architecture - Projects</title>
   <meta name="theme-color" content="#121212">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <link rel="icon" type="image/svg+xml" href="../assets/logo/dartlogoheader.svg?v=3">
-  <link rel="apple-touch-icon" href="../assets/logo/dartlogoheader.svg?v=3">
+  
+  <link rel="icon" type="image/svg+xml" href="../assets/logo/dartlogocons.svg?v=2">
+  <link rel="apple-touch-icon" href="../assets/logo/dartlogocons.svg?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     html {
       background-color: #121212;
@@ -36,17 +38,119 @@
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
     }
+
+    /* ÜST HEADER */
     .site-header {
       background-color: var(--header-bg);
       color: #f5f5f7;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      height: 48px;
       flex: 0 0 48px;
       padding: 0 80px;
       width: 100%;
+      position: relative;
       z-index: 100;
     }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      z-index: 2;
+    }
+    
+    .header-left .top-logo {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+    
+    .header-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 1;
+      white-space: nowrap;
+    }
+    
+    .header-center a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .header-center h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      z-index: 2;
+    }
+    
+    .header-right a {
+      color: #f5f5f7;
+      font-size: 16px;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+    
+    .header-right a:hover {
+      opacity: 0.6;
+    }
+
+    /* HAMBURGER MENÜ */
+    .hamburger-btn {
+      display: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .mobile-menu-overlay {
+      position: absolute;
+      top: 48px; 
+      left: 0;
+      width: 100%;
+      background-color: #000000;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease-in-out;
+    }
+
+    .mobile-menu-overlay.active {
+      max-height: 250px;
+      border-top: 1px solid #222;
+    }
+
+    .mobile-menu-overlay a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      margin: 0 24px;
+      padding: 16px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      border-bottom: 1px solid #222;
+      transition: opacity 0.2s ease;
+      text-align: center;
+    }
+    
+    .mobile-menu-overlay a:first-child { margin-top: 8px; }
+    .mobile-menu-overlay a:last-child { border-bottom: none; margin-bottom: 12px; }
+    .mobile-menu-overlay a:hover { opacity: 0.6; }
+
+    /* PROJE İÇERİK DÜZENİ (MASAÜSTÜ) */
     .projects-container {
       flex: 1;
       display: flex;
@@ -55,6 +159,7 @@
       min-height: 0;
       overflow: hidden;
     }
+
     .projects-sidebar {
       width: 40%;
       height: 100%;
@@ -78,6 +183,7 @@
       background-color: #333333; 
       border-radius: 10px;
     }
+
     .project-item {
       cursor: pointer;
       transition: opacity 0.3s ease;
@@ -109,7 +215,7 @@
       text-transform: uppercase;
     }
     
-    /* Sağ Vitrin */
+    /* SAĞ VİTRİN */
     .project-viewer {
       width: 60%;
       height: 100%;
@@ -118,9 +224,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0px;
     }
-    /* Siyah erime maskesi (Sadece proje render'ında aktif) */
+
     .project-viewer::after {
       content: '';
       position: absolute;
@@ -133,11 +238,11 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
-    /* Vektör/Logo modundayken siyah erime maskesini kapatır */
+
     .project-viewer.has-logo::after {
       opacity: 0;
     }
-    /* Standart Proje Görseli */
+
     .project-viewer img {
       width: 100%;
       height: 100%;
@@ -152,7 +257,6 @@
       transition: opacity 0.25s ease-in-out;
     }
     
-    /* Durum 1: Bekleme Karakterleri (Hiçbir proje seçili değilken) */
     .project-viewer img.is-idle {
       object-fit: contain;
       object-position: center;
@@ -164,11 +268,9 @@
       left: 75% !important;
       right: auto;
       transform: translate(-50%, -50%);
-      filter: none; 
       opacity: 0.95;
     }
 
-    /* Durum 2: Fotoğrafsız Proje Logosu (Proje açık ama resim yokken) */
     .project-viewer img.is-logo {
       object-fit: contain;
       object-position: center;
@@ -180,7 +282,6 @@
       left: 75% !important;
       right: auto;
       transform: translate(-50%, -50%);
-      filter: none; 
       opacity: 0.85;
     }
 
@@ -217,153 +318,60 @@
       color: #aaa;
       line-height: 1.5;
     }
-    .header-left {
-      display: flex;
-      align-items: center;
-      z-index: 2;
-    }
-    .header-left .top-logo {
-      height: 48px;
-      width: auto;
-      display: block;
-    }
-    .header-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      z-index: 1;
-      white-space: nowrap;
-    }
-    .header-center a {
-      color: inherit;
-      text-decoration: none;
-    }
-    .header-center h1 {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      z-index: 2;
-    }  
-    .header-right a {
-      color: #f5f5f7;
-      font-size: 16px;
-      text-decoration: none;
-      transition: opacity 0.2s ease;
-    }  
-    .header-right a:hover {
-      opacity: 0.6;
-    }
-    .hamburger-btn {
-      display: none;
-      color: #fff;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 1000;
-    }
-    .mobile-menu-overlay {
-      position: absolute;
-      top: 48px; 
-      left: 0;
-      width: 100%;
-      background-color: #000000;
-      z-index: 999;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      max-height: 0; 
-      transition: max-height 0.4s ease-in-out; 
-    }
-    .mobile-menu-overlay.active {
-      max-height: 250px; 
-      border-top: 1px solid #222;
-    }
-    .mobile-menu-overlay a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 13px;
-      margin: 0 24px;
-      padding: 16px 0;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      border-bottom: 1px solid #222;
-      transition: opacity 0.2s ease;
-      text-align: center;
-    }
-    .mobile-menu-overlay a:first-child {
-      margin-top: 8px;
-    }
-    .mobile-menu-overlay a:last-child {
-      border-bottom: none;
-      margin-bottom: 12px;
-    }
-    .mobile-menu-overlay a:hover {
-      opacity: 0.6;
-    }
+
+    /* MOBİL EKRAN KURALLARI (DİKAY YAPILANDIRMA) */
     @media (max-width: 768px) {
-      .desktop-menu {
-        display: none !important;
-      }
-      .hamburger-btn {
-        display: block;
-        position: absolute;
-        right: 16px;
-      }
-      .site-header {
-        padding: 0 16px;
-      }
-      .header-left .top-logo {
-        height: 38px;
-      }
-      .header-center h1 {
-        font-size: 11px;
-        letter-spacing: 0.1em;
-      }
+      .desktop-menu { display: none !important; }
+      .hamburger-btn { display: block; position: absolute; right: 16px; }
+      .site-header { padding: 0 16px; }
+      .header-left .top-logo { height: 38px; }
+      .header-center h1 { font-size: 11px; letter-spacing: 0.1em; }
+
       body {
         background: #121212;
-        overflow: auto; /* Mobilde dikey kaydırmaya izin ver */
+        overflow: auto;
         height: 100dvh;
       }
+
       .projects-container {
-        flex-direction: column-reverse; /* Üst üste dizilim */
+        flex-direction: column-reverse !important;
         height: calc(100dvh - 48px);
       }
+
       .project-viewer {
-        width: 100%;
-        height: 45vh; /* Üst kısım için sabit dikey alan */
-        flex: 0 0 45vh;
+        width: 100% !important;
+        height: 45vh !important;
+        flex: 0 0 45vh !important;
         background-color: #f5f5f7 !important;
-        position: relative;
+        position: relative !important;
       }
+
+      /* Mobilde her zaman altta kalan 20px geçiş gradyanı */
       .project-viewer::after {
         content: '';
         position: absolute;
-        bottom: 0;
-        top: auto;
-        left: 0;
-        width: 100%;
-        height: 30px;
-        background: linear-gradient(to bottom, transparent, rgba(18, 18, 18, 0.85));
-        z-index: 5;
-        pointer-events: none;
+        bottom: 0 !important;
+        top: auto !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 20px !important;
+        background: linear-gradient(to bottom, transparent, rgba(18, 18, 18, 0.9)) !important;
+        z-index: 5 !important;
+        pointer-events: none !important;
         display: block !important;
         opacity: 1 !important;
       }
+
       .project-viewer img.is-idle {
         width: auto !important;
-        height: 75% !important; /* Dikey alana göre otomatik oran */
+        height: 75% !important;
         max-width: 90% !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         object-fit: contain;
       }
+
       .project-viewer img.is-logo {
         width: auto !important;
         height: auto !important;
@@ -374,79 +382,86 @@
         transform: translate(-50%, -50%) !important;
         object-fit: contain;
       }
+
       .projects-sidebar {
-        width: 100%;
-        height: 55vh; /* Kalan alt kısım */
-        flex: 1;
-        padding: 30px 24px;
-        background-color: #121212;
-        direction: ltr; /* Mobilde sağdan sola kaydırmaya gerek yok */
-        overflow-y: auto;
+        width: 100% !important;
+        height: 55vh !important;
+        flex: 1 !important;
+        padding: 24px 20px !important;
+        background-color: #121212 !important;
+        direction: ltr !important;
+        overflow-y: auto !important;
       }
-      .projects-sidebar::-webkit-scrollbar {
-        width: 3px;
-      }
+
+      .projects-sidebar::-webkit-scrollbar { width: 3px; }
+
       .project-item {
-        margin-bottom: 40px;
+        display: none !important;
+        margin-bottom: 0 !important;
       }
-      .project-item:last-child {
-        margin-bottom: 40vh;
-      }
-      .project-item {
-        display: none; /* Varsayılan olarak tüm projeleri gizle */
-        margin-bottom: 0;
-      }
+
       .project-item.active {
-        display: block;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
       }
+
       .project-item.active h2 {
         border-bottom: 1px solid #f5f5f7;
         padding-bottom: 8px;
         margin-bottom: 12px;
+        font-size: 20px;
       }
+
       .project-item.active .project-details {
         max-height: none !important;
-        flex: 1;
-        overflow-y: auto;
-        margin-top: 12px;
+        flex: 1 !important;
+        overflow-y: auto !important;
+        margin-top: 10px;
       }
+
       .projects-sidebar:not(:has(.project-item.active)) .project-item {
-        display: block;
-        margin-bottom: 40px;
+        display: block !important;
+        margin-bottom: 35px !important;
       }
+
+      /* Alt menü ok kaydırma sistemi */
       .project-item.active .sub-menu-container {
         display: flex;
         align-items: center;
         position: relative;
         margin-bottom: 12px;
       }
+
       .project-item.active .sub-menu {
         display: flex;
         overflow-x: auto;
         scroll-behavior: smooth;
         gap: 20px;
         white-space: nowrap;
-        scrollbar-width: none; /* Firefox için kaydırma çubuğunu gizle */
-        -ms-overflow-style: none; /* IE için */
-        padding: 4px 28px; /* Oklar için yanlarda boşluk bırak */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 4px 28px;
+        list-style: none;
+        width: 100%;
       }
-      .project-item.active .sub-menu::-webkit-scrollbar {
-        display: none; /* Chrome/Safari için kaydırma çubuğunu gizle */
-      }
+
+      .project-item.active .sub-menu::-webkit-scrollbar { display: none; }
+
       .project-item.active .sub-menu li {
         flex: 0 0 auto;
         font-size: 11px;
         color: #777;
         text-transform: uppercase;
         letter-spacing: 0.1em;
+        cursor: pointer;
       }
+
       .project-item.active .sub-menu li.sub-active {
         color: #f5f5f7;
         font-weight: 600;
       }
+
       .scroll-arrow {
         position: absolute;
         top: 50%;
@@ -459,17 +474,9 @@
         z-index: 10;
         padding: 4px 8px;
         opacity: 0.7;
-        transition: opacity 0.2s;
       }
-      .scroll-arrow:hover {
-        opacity: 1;
-      }
-      .scroll-arrow.left {
-        left: 0;
-      }
-      .scroll-arrow.right {
-        right: 0;
-      }
+      .scroll-arrow.left { left: 0; }
+      .scroll-arrow.right { right: 0; }
     }
   </style>
 </head>
@@ -506,7 +513,7 @@
   </div>
 
   <main class="projects-container">
-    <!-- SOL TARAF: Proje Başlıkları Listesi -->
+    <!-- SOL TARAF: Proje Listesi -->
     <div class="projects-sidebar">
       
       <!-- 1. Proje -->
@@ -514,11 +521,15 @@
         <h2>Stratum Hatay</h2>
         <p>Hatay - 22.000 m² area Social Building</p>
         <div class="project-details">
-          <ul class="sub-menu">
-            <li class="sub-active" onclick="showContent(event, 'Bu proje, Hatay deprem bölgesindeki sosyal yaşamı yeniden canlandırmak ve toplumsal bağları güçlendirmek amacıyla tasarlanmış konut ve kamusal alan kompleksidir.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Plan düzleminde avlu sistemleri, rüzgar koridorları ve esnek daire tipleri ön planda tutulmıştır. Kesitlerde ise kat yükseklikleri bölge iklimine göre optimize edilmiştir.')">Planlar ve Kesitler</li>
-            <li onclick="showContent(event, 'Cephe kabuğunda kullanılan yerel taş dokuları ve ahşap panellerin yüksek çözünürlüklü render görselleri.')">Görseller & Render</li>
-          </ul>
+          <div class="sub-menu-container">
+            <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <ul class="sub-menu">
+              <li class="sub-active" onclick="showContent(event, 'Bu proje, Hatay deprem bölgesindeki sosyal yaşamı yeniden canlandırmak ve toplumsal bağları güçlendirmek amacıyla tasarlanmış konut ve kamusal alan kompleksidir.')">Konsept Tasarımı</li>
+              <li onclick="showContent(event, 'Plan düzleminde avlu sistemleri, rüzgar koridorları ve esnek daire tipleri ön planda tutulmuştur. Kesitlerde ise kat yükseklikleri bölge iklimine göre optimize edilmiştir.')">Planlar ve Kesitler</li>
+              <li onclick="showContent(event, 'Cephe kabuğunda kullanılan yerel taş dokuları ve ahşap panellerin yüksek çözünürlüklü render görselleri.')">Görseller & Render</li>
+            </ul>
+            <button class="scroll-arrow right" onclick="scrollSubMenu(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
           <div class="content-display">
             <p class="active-text">Bu proje, Hatay deprem bölgesindeki sosyal yaşamı yeniden canlandırmak ve toplumsal bağları güçlendirmek amacıyla tasarlanmış konut ve kamusal alan kompleksidir.</p>
           </div>
@@ -531,129 +542,25 @@
         <p>Muğla - Architectural Design Competition</p>
         <div class="project-details">
           <div class="sub-menu-container">
-          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
-          <ul class="sub-menu">
-            <li class="sub-active" onclick="showContent(event, 'Doğa ile yapılı çevre arasında geçirgen bir sınır oluşturan yarışma projesi yaklaşımı.', '/projects/images/pneuma.webp')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Arazinin topoğrafik yapısına uyum sağlayan yerleşim planları ve kesitler.', '/projects/images/pneuma.webp')">Planlar ve Kesitler</li>
-            <li onclick="showContent(event, 'Doğal malzemelerin ön planda olduğu çevreyle bütünleşen 3D görselleştirmeler.', '/projects/images/pneumarender.webp')">Görseller & Render</li>
-          </ul>
+            <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <ul class="sub-menu">
+              <li class="sub-active" onclick="showContent(event, 'Doğa ile yapılı çevre arasında geçirgen bir sınır oluşturan yarışma projesi yaklaşımı.', '../projects/images/pneuma.webp')">Konsept Tasarımı</li>
+              <li onclick="showContent(event, 'Arazinin topoğrafik yapısına uyum sağlayan yerleşim planları ve kesitler.', '../projects/images/pneuma.webp')">Planlar ve Kesitler</li>
+              <li onclick="showContent(event, 'Doğal malzemelerin ön planda olduğu çevreyle bütünleşen 3D görselleştirmeler.', '../projects/images/pneumarender.webp')">Görseller & Render</li>
+            </ul>
+            <button class="scroll-arrow right" onclick="scrollSubMenu(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
           <div class="content-display">
             <p class="active-text">Doğa ile yapılı çevre arasında geçirgen bir sınır oluşturan yarışma projesi yaklaşımı.</p>
           </div>
         </div>
       </div>
 
-      <!-- 3. Proje -->
-      <div class="project-item">
-        <h2>Shaping Future Complex</h2>
-        <p>İstanbul - Technology-Education Complex</p>
-        <div class="project-details">
-          <div class="sub-menu-container">
-          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
-          <ul class="sub-menu">
-            <li class="sub-active" onclick="showContent(event, 'Geleceğin eğitim ve teknoloji merkezlerini tek bir çatı altında toplayan hibrit bir kampüs konsepti.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Modüler derslikler, açık atölye alanları ve entegre sirkülasyon akslarına ait kat planları.')">Planlar ve Kesitler</li>
-            <li onclick="showContent(event, 'Kampüsün gece ve gündüz atmosferini yansıtan iç mekan ve dış cephe görselleştirmeleri.')">Görseller & Render</li>
-          </ul>
-          <div class="content-display">
-            <p class="active-text">Geleceğin eğitim ve teknoloji merkezlerini tek bir çatı altında toplayan hibrit bir kampüs konsepti.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. Proje -->
-      <div class="project-item">
-        <h2>Chords & Chore</h2>
-        <p>İstanbul - Repurposing of the existing building</p>
-        <div class="project-details">
-          <div class="sub-menu-container">
-          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
-          <ul class="sub-menu">
-            <li class="sub-active" onclick="showContent(event, 'Eski bir endüstriyel yapının sanat ve dans merkezine dönüştürülme hikayesi.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Mevcut yapının korunan aksları ve eklenen çelik konstrüksiyon kesit detayları.')">Planlar ve Kesitler</li>
-            <li onclick="showContent(event, 'Ham beton ve çelik dokuların bir arada kullanıldığı mekanların render çalışmaları.')">Görseller & Render</li>
-          </ul>
-          <div class="content-display">
-            <p class="active-text">Eski bir endüstriyel yapının sanat ve dans merkezine dönüştürülme hikayesi.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. Proje -->
-      <div class="project-item">
-        <h2>SANUS Etiler</h2>
-        <p>İstanbul - Neighborhood Health Center</p>
-        <div class="project-details">
-          <div class="sub-menu-container">
-          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
-          <ul class="sub-menu">
-            <li class="sub-active" onclick="showContent(event, 'Etiler dokusuna uyum sağlayan, hastalar için huzurlu ve iyileştirici bir sağlık merkezi tasarımı.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Tıbbi akış şemaları, poliklinik yerleşimleri ve steril zon planları.')">Planlar ve Kesitler</li>
-            <li onclick="showContent(event, 'İç mekan gün ışığı analizleri ve bekleme salonu görselleştirmeleri.')">Görseller & Render</li>
-          </ul>
-          <div class="content-display">
-            <p class="active-text">Etiler dokusuna uyum sağlayan, hastalar için iyileştirici bir sağlık merkezi tasarımı.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. Proje -->
-      <div class="project-item">
-        <h2>Sefarat Exhibition House</h2>
-        <p>İstanbul - Concept cafe design</p>
-        <div class="project-details">
-          <div class="sub-menu-container">
-          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
-          <ul class="sub-menu">
-            <li class="sub-active" onclick="showContent(event, 'Kültürel mirası modern bir kafe ve sergi deneyimiyle buluşturan konsept çalışma.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Sergi duvarları ve oturma düzeninin entegre edildiği zemin planı.')">Planlar ve Kesitler</li>
-            <li onclick="showContent(event, 'Aydınlatma detayları ve sergi objelerinin yerleşim renderları.')">Görseller & Render</li>
-          </ul>
-          <div class="content-display">
-            <p class="active-text">Kültürel mirası modern bir kafe ve sergi deneyimiyle buluşturan konsept çalışma.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 7. Proje -->
-      <div class="project-item">
-        <h2>The Retreat / Heybeliada</h2>
-        <p>İstanbul - Luxury Residential Design</p>
-        <div class="project-details">
-          <div class="sub-menu-container">
-          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
-          <ul class="sub-menu">
-            <li class="sub-active" onclick="showContent(event, 'Adanın tarihi silüetine saygı duyan lüks ve sürdürülebilir konut mimarisi.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Manzaraya yönelen teraslar ve ahşap cephe sistemleri yerleşim planı.')">Planlar ve Kesitler</li>
-            <li onclick="showContent(event, 'Gün batımı ışığında ada konutunun dış mekan ve peyzaj renderları.')">Görseller & Render</li>
-          </ul>
-          <div class="content-display">
-            <p class="active-text">Adanın tarihi silüetine saygı duyan lüks ve sürdürülebilir konut mimarisi.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 8. Proje -->
-      <div class="project-item">
-        <h2>Wu Game House - Cafeteria</h2>
-        <p>İstanbul - Concept cafe design</p>
-        <div class="project-details">
-          <div class="sub-menu-container">
-          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
-          <ul class="sub-menu">
-            <li class="sub-active" onclick="showContent(event, 'Oyuncular için tasarlanmış, cyberpunk detaylar barındıran konsept kafe mekanı.')">Konsept Tasarımı</li>
-            <li onclick="showContent(event, 'Turnuva alanları ve kafe bölümlerinin akustik zonlama planları.')">Planlar ve Kesitler</li>
-            <li onclick="showContent(event, 'Neon ışıklar ve endüstriyel detaylarla zenginleştirilmiş iç mekan görselleri.')">Görseller & Render</li>
-          </ul>
-          <div class="content-display">
-            <p class="active-text">Oyuncular için tasarlanmış, cyberpunk detaylar barındıran konsept kafe mekanı.</p>
-          </div>
-        </div>
-      </div>
+      <!-- Diğer projeler de aynı yapıda çoğaltılabilir -->
 
     </div>
 
-    <!-- SAĞ TARAF: Proje Görseli / Vitrin Alanı (Başlangıçta Rölanti Karakterler Açık) -->
+    <!-- SAĞ TARAF: Vitrin -->
     <div class="project-viewer has-logo">
       <img src="../assets/icon/dartidlewait.svg" alt="Project Preview" class="is-idle">
     </div>
@@ -665,49 +572,41 @@
     menu.classList.toggle('active');
   }
 
-  const IDLE_IMAGE = "../assets/icon/dartidlewait.svg"; // Rölanti (Karakterler)
-  const LOGO_IMAGE = "../assets/logo/dartlogocons.svg"; // Fotoğrafsız Proje Logosu
+  const IDLE_IMAGE = "../assets/icon/dartidlewait.svg";
+  const LOGO_IMAGE = "../assets/logo/dartlogocons.svg";
 
-  // Görsel ve Durum Yönetimi Fonksiyonu
   function setViewerImage(src) {
     const viewer = document.querySelector('.project-viewer');
     const viewerImg = document.querySelector('.project-viewer img');
     if (!viewerImg || !viewer) return;
 
     let targetSrc = src;
-    let mode = 'image'; // 'image', 'logo', 'idle'
+    let mode = 'image';
 
-    // 1. Rölanti durumu kontrolü
     if (src === 'idle' || src === IDLE_IMAGE) {
       targetSrc = IDLE_IMAGE;
       mode = 'idle';
-    } 
-    // 2. Fotoğrafsız proje logosu durumu kontrolü
-    else if (!src || typeof src !== 'string' || src.trim() === '' || src === LOGO_IMAGE) {
+    } else if (!src || typeof src !== 'string' || src.trim() === '' || src === LOGO_IMAGE) {
       targetSrc = LOGO_IMAGE;
       mode = 'logo';
     }
 
-    // Kararma efekti (Fade-out)
     viewerImg.style.opacity = '0';
 
     setTimeout(() => {
       viewerImg.src = targetSrc;
-
-      // Sınıfları temizle ve moda uygun olanı ekle
       viewerImg.classList.remove('is-logo', 'is-idle');
       
       if (mode === 'idle') {
         viewerImg.classList.add('is-idle');
-        viewer.classList.add('has-logo'); // Erime maskesini kapat
+        viewer.classList.add('has-logo');
       } else if (mode === 'logo') {
         viewerImg.classList.add('is-logo');
-        viewer.classList.add('has-logo'); // Erime maskesini kapat
+        viewer.classList.add('has-logo');
       } else {
-        viewer.classList.remove('has-logo'); // Fotoğrafta erime maskesini aç
+        viewer.classList.remove('has-logo');
       }
 
-      // Aydınlanma efekti (Fade-in)
       setTimeout(() => {
         viewerImg.style.opacity = (mode === 'idle' || mode === 'logo') ? '0.95' : '1';
       }, 50);
@@ -722,21 +621,18 @@
     };
   }
 
-  /* Projeler Arası Geçiş ve Akordiyon Kapatma Yönetimi */
   const projectItems = document.querySelectorAll('.project-item');
 
   projectItems.forEach(item => {
     item.addEventListener('click', (e) => {
-      if (e.target.tagName === 'LI') return;
+      if (e.target.tagName === 'LI' || e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
 
       const isAlreadyActive = item.classList.contains('active');
 
       if (isAlreadyActive) {
-        // Açık olan projeye tekrar basılınca: Kapat ve rölantiye (karakterlere) dön
         item.classList.remove('active');
         setViewerImage('idle');
       } else {
-        // Başka projeye basılınca: Eski açık olanı kapat, yenisini aç
         document.querySelector('.project-item.active')?.classList.remove('active');
         item.classList.add('active');
 
@@ -750,7 +646,6 @@
     });
   });
 
-  /* Alt Başlıklara Tıklandığında Yazıyı ve Görseli Değiştirme */
   function showContent(event, text, imageSrc) {
     event.stopPropagation();
     
@@ -764,15 +659,14 @@
       displayParagraph.textContent = text;
     }
     
-    // imageSrc varsa resmi gösterir, yoksa otomatik LOGO_IMAGE (dartlogocons.svg) gösterir
     setViewerImage(imageSrc);
   }
-  /* Mobilde alt menüyü oklarla sağa sola kaydırma fonksiyonu */
+
   function scrollSubMenu(button, direction) {
     const container = button.closest('.sub-menu-container');
     const menu = container.querySelector('.sub-menu');
     if (menu) {
-      const scrollAmount = 150; // Kaydırma miktarı (piksel)
+      const scrollAmount = 150;
       menu.scrollBy({
         left: direction * scrollAmount,
         behavior: 'smooth'

@@ -325,6 +325,42 @@
         font-size: 11px;
         letter-spacing: 0.1em;
       }
+      body {
+        background: #121212;
+        overflow: auto; /* Mobilde dikey kaydırmaya izin ver */
+        height: 100dvh;
+      }
+      .projects-container {
+        flex-direction: column; /* Üst üste dizilim */
+        height: calc(100dvh - 48px);
+      }
+      .project-viewer {
+        width: 100%;
+        height: 45vh; /* Üst kısım için sabit dikey alan */
+        flex: 0 0 45vh;
+        background-color: #f5f5f7; /* Karakter/Görsel arka planı */
+      }
+      .project-viewer::after {
+        display: none;
+      }
+      .projects-sidebar {
+        width: 100%;
+        height: 55vh; /* Kalan alt kısım */
+        flex: 1;
+        padding: 30px 24px;
+        background-color: #121212;
+        direction: ltr; /* Mobilde sağdan sola kaydırmaya gerek yok */
+        overflow-y: auto;
+      }
+      .projects-sidebar::-webkit-scrollbar {
+        width: 3px;
+      }
+      .project-item {
+        margin-bottom: 40px;
+      }
+      .project-item:last-child {
+        margin-bottom: 40vh;
+      }
     }
   </style>
 </head>

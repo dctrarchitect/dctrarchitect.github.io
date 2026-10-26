@@ -402,6 +402,11 @@
         display: flex;
         flex-direction: column;
       }
+      .project-item.active h2 {
+        border-bottom: 1px solid #f5f5f7;
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+      }
       .project-item.active .project-details {
         max-height: none !important;
         flex: 1;
@@ -411,6 +416,59 @@
       .projects-sidebar:not(:has(.project-item.active)) .project-item {
         display: block;
         margin-bottom: 40px;
+      }
+      .project-item.active .sub-menu-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin-bottom: 12px;
+      }
+      .project-item.active .sub-menu {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        gap: 20px;
+        white-space: nowrap;
+        scrollbar-width: none; /* Firefox için kaydırma çubuğunu gizle */
+        -ms-overflow-style: none; /* IE için */
+        padding: 4px 28px; /* Oklar için yanlarda boşluk bırak */
+      }
+      .project-item.active .sub-menu::-webkit-scrollbar {
+        display: none; /* Chrome/Safari için kaydırma çubuğunu gizle */
+      }
+      .project-item.active .sub-menu li {
+        flex: 0 0 auto;
+        font-size: 11px;
+        color: #777;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .project-item.active .sub-menu li.sub-active {
+        color: #f5f5f7;
+        font-weight: 600;
+      }
+      .scroll-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: #f5f5f7;
+        font-size: 14px;
+        cursor: pointer;
+        z-index: 10;
+        padding: 4px 8px;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+      }
+      .scroll-arrow:hover {
+        opacity: 1;
+      }
+      .scroll-arrow.left {
+        left: 0;
+      }
+      .scroll-arrow.right {
+        right: 0;
       }
     }
   </style>
@@ -472,6 +530,8 @@
         <h2>Pneuma</h2>
         <p>Muğla - Architectural Design Competition</p>
         <div class="project-details">
+          <div class="sub-menu-container">
+          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Doğa ile yapılı çevre arasında geçirgen bir sınır oluşturan yarışma projesi yaklaşımı.', '/projects/images/pneuma.webp')">Konsept Tasarımı</li>
             <li onclick="showContent(event, 'Arazinin topoğrafik yapısına uyum sağlayan yerleşim planları ve kesitler.', '/projects/images/pneuma.webp')">Planlar ve Kesitler</li>
@@ -488,6 +548,8 @@
         <h2>Shaping Future Complex</h2>
         <p>İstanbul - Technology-Education Complex</p>
         <div class="project-details">
+          <div class="sub-menu-container">
+          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Geleceğin eğitim ve teknoloji merkezlerini tek bir çatı altında toplayan hibrit bir kampüs konsepti.')">Konsept Tasarımı</li>
             <li onclick="showContent(event, 'Modüler derslikler, açık atölye alanları ve entegre sirkülasyon akslarına ait kat planları.')">Planlar ve Kesitler</li>
@@ -504,6 +566,8 @@
         <h2>Chords & Chore</h2>
         <p>İstanbul - Repurposing of the existing building</p>
         <div class="project-details">
+          <div class="sub-menu-container">
+          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Eski bir endüstriyel yapının sanat ve dans merkezine dönüştürülme hikayesi.')">Konsept Tasarımı</li>
             <li onclick="showContent(event, 'Mevcut yapının korunan aksları ve eklenen çelik konstrüksiyon kesit detayları.')">Planlar ve Kesitler</li>
@@ -520,6 +584,8 @@
         <h2>SANUS Etiler</h2>
         <p>İstanbul - Neighborhood Health Center</p>
         <div class="project-details">
+          <div class="sub-menu-container">
+          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Etiler dokusuna uyum sağlayan, hastalar için huzurlu ve iyileştirici bir sağlık merkezi tasarımı.')">Konsept Tasarımı</li>
             <li onclick="showContent(event, 'Tıbbi akış şemaları, poliklinik yerleşimleri ve steril zon planları.')">Planlar ve Kesitler</li>
@@ -536,6 +602,8 @@
         <h2>Sefarat Exhibition House</h2>
         <p>İstanbul - Concept cafe design</p>
         <div class="project-details">
+          <div class="sub-menu-container">
+          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Kültürel mirası modern bir kafe ve sergi deneyimiyle buluşturan konsept çalışma.')">Konsept Tasarımı</li>
             <li onclick="showContent(event, 'Sergi duvarları ve oturma düzeninin entegre edildiği zemin planı.')">Planlar ve Kesitler</li>
@@ -552,6 +620,8 @@
         <h2>The Retreat / Heybeliada</h2>
         <p>İstanbul - Luxury Residential Design</p>
         <div class="project-details">
+          <div class="sub-menu-container">
+          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Adanın tarihi silüetine saygı duyan lüks ve sürdürülebilir konut mimarisi.')">Konsept Tasarımı</li>
             <li onclick="showContent(event, 'Manzaraya yönelen teraslar ve ahşap cephe sistemleri yerleşim planı.')">Planlar ve Kesitler</li>
@@ -568,6 +638,8 @@
         <h2>Wu Game House - Cafeteria</h2>
         <p>İstanbul - Concept cafe design</p>
         <div class="project-details">
+          <div class="sub-menu-container">
+          <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
           <ul class="sub-menu">
             <li class="sub-active" onclick="showContent(event, 'Oyuncular için tasarlanmış, cyberpunk detaylar barındıran konsept kafe mekanı.')">Konsept Tasarımı</li>
             <li onclick="showContent(event, 'Turnuva alanları ve kafe bölümlerinin akustik zonlama planları.')">Planlar ve Kesitler</li>
@@ -694,6 +766,18 @@
     
     // imageSrc varsa resmi gösterir, yoksa otomatik LOGO_IMAGE (dartlogocons.svg) gösterir
     setViewerImage(imageSrc);
+  }
+  /* Mobilde alt menüyü oklarla sağa sola kaydırma fonksiyonu */
+  function scrollSubMenu(button, direction) {
+    const container = button.closest('.sub-menu-container');
+    const menu = container.querySelector('.sub-menu');
+    if (menu) {
+      const scrollAmount = 150; // Kaydırma miktarı (piksel)
+      menu.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+      });
+    }
   }
 </script>
 

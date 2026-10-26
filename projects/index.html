@@ -318,6 +318,9 @@
       color: #aaa;
       line-height: 1.5;
     }
+    .scroll-arrow {
+        display: none;
+    }
 
     /* MOBİL EKRAN KURALLARI (DİKAY YAPILANDIRMA) */
     @media (max-width: 768px) {
@@ -463,6 +466,7 @@
       }
 
       .scroll-arrow {
+        display: block;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -782,14 +786,21 @@
     setViewerImage(imageSrc);
   }
 
-  function scrollSubMenu(button, direction) {
+ function scrollSubMenu(button, direction) {
     const container = button.closest('.sub-menu-container');
     const menu = container.querySelector('.sub-menu');
-    if (menu) {
-      const scrollAmount = 150;
-      menu.scrollBy({
-        left: direction * scrollAmount,
-        behavior: 'smooth'
+    if (!menu) return;
+    const items = Array.from(menu.querySelectorAll('li'));
+    const activeItem = menu.querySelector('li.sub-active');
+    if (!activeItem) return;
+    let currentIndex = items.indexOf(activeItem);
+    let targetIndex = currentIndex + direction;
+    if (targetIndex >= 0 && targetIndex < items.length) {
+      items[targetIndex].click();
+      items[targetIndex].scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest'
       });
     }
   }

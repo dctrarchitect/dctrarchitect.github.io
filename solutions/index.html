@@ -501,4 +501,229 @@
     </div>
 
     <div class="header-right desktop-menu">
-      <a href="https://instagram.com/dctrart/" target="_blank" aria-label="Instagram"><i class="
+      <a href="https://instagram.com/dctrart/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="mailto:info@dctrart.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+      <a href="https://sketch.dctrart.com" target="_blank" aria-label="Dart Sketchbook"><i class="fa-solid fa-pen-nib"></i></a>
+    </div>
+
+    <div class="hamburger-btn" onclick="toggleMobileMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </header>
+
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <a href="https://instagram.com/dctrart/" target="_blank">Instagram</a>
+    <a href="mailto:info@dctrart.com">İletişim</a>
+    <a href="https://sketch.dctrart.com" target="_blank">Dart Sketchbook</a>
+  </div>
+
+  <main class="solutions-container">
+    <!-- SAĞ TARAF (Masaüstü): Çözüm Listesi -->
+    <div class="solutions-sidebar">
+      
+      <!-- 1. Çözüm -->
+      <div class="solution-item">
+        <h2>Architectural Design</h2>
+        <p>Concept to Construction Documentation</p>
+        <div class="solution-details">
+          <div class="sub-menu-container">
+            <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <ul class="sub-menu">
+              <li class="sub-active" onclick="showContent(event, 'Arazi verileri, iklim koşulları ve kullanıcı ihtiyaçlarına göre şekillenen özgün mimari konsept geliştirme süreci.', '')">Overview</li>
+              <li onclick="showContent(event, 'Uygulama projeleri, sistem detayları ve disiplinler arası koordinasyon süreçleri.', '')">Deliverables</li>
+              <li onclick="showContent(event, 'Konut, ticari yapılar ve kamusal alanlar için ölçeklenebilir tasarım çözümleri.', '')">Scope</li>
+            </ul>
+            <button class="scroll-arrow right" onclick="scrollSubMenu(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="content-display">
+            <p class="active-text">Arazi verileri, iklim koşulları ve kullanıcı ihtiyaçlarına göre şekillenen özgün mimari konsept geliştirme süreci.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Çözüm -->
+      <div class="solution-item">
+        <h2>3D Visualization & Rendering</h2>
+        <p>Photorealistic Exterior & Interior Visuals</p>
+        <div class="solution-details">
+          <div class="sub-menu-container">
+            <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <ul class="sub-menu">
+              <li class="sub-active" onclick="showContent(event, 'Projelerin henüz inşa edilmeden atmosferini, malzeme dokusunu ve ışık kurgusunu aktaran yüksek çözünürlüklü görseller.', '')">Overview</li>
+              <li onclick="showContent(event, 'Dış mekan perspektifleri, iç mekan sahneleri ve kavramsal diyagram üretimi.', '')">Deliverables</li>
+              <li onclick="showContent(event, 'Blender Cycles ve post-prodüksiyon iş akışlarıyla gerçekçi malzeme ve ışık simülasyonu.', '')">Workflow</li>
+            </ul>
+            <button class="scroll-arrow right" onclick="scrollSubMenu(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="content-display">
+            <p class="active-text">Projelerin henüz inşa edilmeden atmosferini, malzeme dokusunu ve ışık kurgusunu aktaran yüksek çözünürlüklü görseller.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Çözüm -->
+      <div class="solution-item">
+        <h2>Interior & Spatial Design</h2>
+        <p>Commercial, Hospitality & Residential Spaces</p>
+        <div class="solution-details">
+          <div class="sub-menu-container">
+            <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <ul class="sub-menu">
+              <li class="sub-active" onclick="showContent(event, 'Mekan kimliğini güçlendiren, ergonomik ve estetik iç mekan kurguları.', '')">Overview</li>
+              <li onclick="showContent(event, 'Özel mobilya tasarımları, aydınlatma senaryoları ve malzeme panoları.', '')">Deliverables</li>
+              <li onclick="showContent(event, 'Kafe, sergi alanı, ofis ve konut projeleri için uçtan uca mekan tasarımı.', '')">Scope</li>
+            </ul>
+            <button class="scroll-arrow right" onclick="scrollSubMenu(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="content-display">
+            <p class="active-text">Mekan kimliğini güçlendiren, ergonomik ve estetik iç mekan kurguları.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Çözüm -->
+      <div class="solution-item">
+        <h2>Competition & Concept Consultancy</h2>
+        <p>Architectural Storytelling & Presentation</p>
+        <div class="solution-details">
+          <div class="sub-menu-container">
+            <button class="scroll-arrow left" onclick="scrollSubMenu(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <ul class="sub-menu">
+              <li class="sub-active" onclick="showContent(event, 'Mimari yarışmalar ve erken evre yatırımlar için güçlü konsept kurgusu ve sunum dili.', '')">Overview</li>
+              <li onclick="showContent(event, 'Analitik diyagramlar, pafta kurgusu ve proje anlatım metinleri.', '')">Deliverables</li>
+              <li onclick="showContent(event, 'Ulusal ve uluslararası mimari tasarım yarışmalarına yönelik hızlı konsept geliştirme.', '')">Scope</li>
+            </ul>
+            <button class="scroll-arrow right" onclick="scrollSubMenu(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          <div class="content-display">
+            <p class="active-text">Mimari yarışmalar ve erken evre yatırımlar için güçlü konsept kurgusu ve sunum dili.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SOL TARAF (Masaüstü): Vitrin -->
+    <div class="solution-viewer has-logo">
+      <img src="../assets/icon/dartidlewait.svg" alt="Solution Preview" class="is-idle">
+    </div>
+  </main>
+
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('active');
+  }
+
+  const IDLE_IMAGE = "../assets/icon/dartidlewait.svg";
+  const LOGO_IMAGE = "../assets/logo/dartlogocons.svg";
+
+  function setViewerImage(src) {
+    const viewer = document.querySelector('.solution-viewer');
+    const viewerImg = document.querySelector('.solution-viewer img');
+    if (!viewerImg || !viewer) return;
+
+    let targetSrc = src;
+    let mode = 'image';
+
+    if (src === 'idle' || src === IDLE_IMAGE) {
+      targetSrc = IDLE_IMAGE;
+      mode = 'idle';
+    } else if (!src || typeof src !== 'string' || src.trim() === '' || src === LOGO_IMAGE) {
+      targetSrc = LOGO_IMAGE;
+      mode = 'logo';
+    }
+
+    viewerImg.style.opacity = '0';
+
+    setTimeout(() => {
+      viewerImg.src = targetSrc;
+      viewerImg.classList.remove('is-logo', 'is-idle');
+      
+      if (mode === 'idle') {
+        viewerImg.classList.add('is-idle');
+        viewer.classList.add('has-logo');
+      } else if (mode === 'logo') {
+        viewerImg.classList.add('is-logo');
+        viewer.classList.add('has-logo');
+      } else {
+        viewer.classList.remove('has-logo');
+      }
+
+      setTimeout(() => {
+        viewerImg.style.opacity = (mode === 'idle' || mode === 'logo') ? '0.95' : '1';
+      }, 50);
+    }, 200);
+
+    viewerImg.onerror = () => {
+      viewerImg.src = LOGO_IMAGE;
+      viewerImg.classList.remove('is-idle');
+      viewerImg.classList.add('is-logo');
+      viewer.classList.add('has-logo');
+      viewerImg.style.opacity = '0.85';
+    };
+  }
+
+  const solutionItems = document.querySelectorAll('.solution-item');
+
+  solutionItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      if (e.target.tagName === 'LI' || e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
+
+      const isAlreadyActive = item.classList.contains('active');
+
+      if (isAlreadyActive) {
+        item.classList.remove('active');
+        setViewerImage('idle');
+      } else {
+        document.querySelector('.solution-item.active')?.classList.remove('active');
+        item.classList.add('active');
+
+        const activeSubLi = item.querySelector('.sub-menu li.sub-active') || item.querySelector('.sub-menu li');
+        if (activeSubLi) {
+          activeSubLi.click();
+        } else {
+          setViewerImage(LOGO_IMAGE);
+        }
+      }
+    });
+  });
+
+  function showContent(event, text, imageSrc) {
+    event.stopPropagation();
+    
+    const solutionItem = event.target.closest('.solution-item');
+    
+    solutionItem.querySelector('.sub-menu li.sub-active')?.classList.remove('sub-active');
+    event.target.classList.add('sub-active');
+
+    const displayParagraph = solutionItem.querySelector('.content-display p');
+    if (displayParagraph) {
+      displayParagraph.textContent = text;
+    }
+    
+    setViewerImage(imageSrc);
+  }
+
+  function scrollSubMenu(button, direction) {
+    const container = button.closest('.sub-menu-container');
+    const menu = container.querySelector('.sub-menu');
+    if (!menu) return;
+    const items = Array.from(menu.querySelectorAll('li'));
+    const activeItem = menu.querySelector('li.sub-active');
+    if (!activeItem) return;
+    let currentIndex = items.indexOf(activeItem);
+    let targetIndex = currentIndex + direction;
+    if (targetIndex >= 0 && targetIndex < items.length) {
+      items[targetIndex].click();
+      items[targetIndex].scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest'
+      });
+    }
+  }
+</script>
+
+</body>
+</html>

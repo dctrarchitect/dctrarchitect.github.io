@@ -160,6 +160,7 @@
       height: calc(100dvh - 48px);
       min-height: 0;
       overflow: hidden;
+      position: relative;
     }
 
     .solutions-sidebar {
@@ -212,6 +213,46 @@
       color: #999999;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+    }
+
+    /* SAĞ PANEL ALT ÜÇLÜ NAVİGASYON (Contact | About Us | Legal) */
+    .sidebar-footer {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: auto;
+      width: 40%;
+      padding: 36px 100px 24px 100px;
+      background: linear-gradient(to top, #121212 62%, rgba(18, 18, 18, 0) 100%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 20;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .sidebar-footer a,
+    .sidebar-footer span {
+      pointer-events: auto;
+    }
+
+    .sidebar-footer a {
+      text-decoration: none;
+      color: #777777;
+      transition: color 0.2s ease;
+    }
+
+    .sidebar-footer a:hover {
+      color: #f5f5f7;
+    }
+
+    .sidebar-footer span {
+      color: rgba(245, 245, 247, 0.2);
+      user-select: none;
     }
     
     /* SOL VİTRİN */
@@ -391,7 +432,7 @@
         width: 100% !important;
         height: 55vh !important;
         flex: 1 !important;
-        padding: 24px 20px !important;
+        padding: 24px 20px 64px 20px !important;
         background-color: #121212 !important;
         direction: ltr !important;
         overflow-y: auto !important;
@@ -427,6 +468,25 @@
       .solutions-sidebar:not(:has(.solution-item.active)) .solution-item {
         display: block !important;
         margin-bottom: 35px !important;
+      }
+
+      .solutions-sidebar:not(:has(.solution-item.active)) .solution-item:last-child {
+        margin-bottom: 24px !important;
+      }
+
+      /* Mobilde alt üçlü bar */
+      .sidebar-footer {
+        width: 100%;
+        left: 0;
+        right: 0;
+        padding: 18px 20px 28px 20px;
+        justify-content: center;
+        font-size: 10px;
+        gap: 10px;
+      }
+
+      .solutions-container:has(.solution-item.active) .sidebar-footer {
+        display: none;
       }
 
       /* Alt menü ok kaydırma sistemi */
@@ -602,6 +662,15 @@
       </div>
 
     </div>
+
+    <!-- SAĞ PANEL ALT ÜÇLÜ NAVİGASYON -->
+    <footer class="sidebar-footer">
+      <a href="../contact/">Contact</a>
+      <span>|</span>
+      <a href="../about/">About Us</a>
+      <span>|</span>
+      <a href="../legal/">Legal</a>
+    </footer>
 
     <!-- SOL TARAF (Masaüstü): Vitrin -->
     <div class="solution-viewer has-logo">

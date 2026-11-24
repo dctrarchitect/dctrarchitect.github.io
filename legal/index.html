@@ -1,1 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DART Architecture - Legal</title>
+  <meta name="theme-color" content="#121212">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="icon" type="image/svg+xml" href="../assets/logo/dartlogotitle.svg?v=2">
+  <link rel="apple-touch-icon" href="../assets/logo/dartlogotitle.svg?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    html {
+      background-color: #121212;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --bg-color: #f5f5f7;
+      --text-color: #121212;
+      --header-bg: #121212;
+    }
+    body {
+      background: linear-gradient(
+        to right,
+        #121212 0%,
+        #121212 4%,
+        var(--bg-color) 24%,
+        var(--bg-color) 76%,
+        #121212 96%,
+        #121212 100%
+      );
+      color: var(--text-color);
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
 
+    /* ÜST HEADER */
+    .site-header {
+      background-color: var(--header-bg);
+      color: #f5f5f7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 48px;
+      flex: 0 0 48px;
+      padding: 0 80px;
+      width: 100%;
+      position: relative;
+      z-index: 100;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      z-index: 2;
+    }
+    
+    .header-left .top-logo {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+    
+    .header-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 1;
+      white-space: nowrap;
+    }
+    
+    .header-center a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .header-center h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      z-index: 2;
+    }
+    
+    .header-right a {
+      color: #f5f5f7;
+      font-size: 16px;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+    
+    .header-right a:hover {
+      opacity: 0.6;
+    }
+
+    /* HAMBURGER MENÜ */
+    .hamburger-btn {
+      display: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .mobile-menu-overlay {
+      position: absolute;
+      top: 48px; 
+      left: 0;
+      width: 100%;
+      background-color: #000000;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease-in-out;
+    }
+
+    .mobile-menu-overlay.active {
+      max-height: 250px;
+      border-top: 1px solid #222;
+    }
+
+    .mobile-menu-overlay a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      margin: 0 24px;
+      padding: 16px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      border-bottom: 1px solid #222;
+      transition: opacity 0.2s ease;
+      text-align: center;
+    }
+    
+    .mobile-menu-overlay a:first-child { margin-top: 8px; }
+    .mobile-menu-overlay a:last-child { border-bottom: none; margin-bottom: 12px; }
+    .mobile-menu-overlay a:hover { opacity: 0.6; }
+
+    /* ANA İÇERİK ALANI */
+    .page-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: calc(100dvh - 48px);
+      position: relative;
+      overflow-y: auto;
+      padding: 40px 24px 28px 24px;
+    }
+
+    /* Arka Plan Silüet Logo */
+    .bg-watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 380px;
+      height: auto;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .legal-content {
+      max-width: 760px;
+      width: 100%;
+      margin: auto 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #777777;
+      margin-bottom: 14px;
+    }
+
+    .legal-header h2 {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: #121212;
+      margin-bottom: 16px;
+    }
+
+    .legal-header p {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #444444;
+    }
+
+    /* 3 SÜTUNLU HUKUKİ BEYANLAR */
+    .legal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(18, 18, 18, 0.15);
+    }
+
+    .legal-col h3 {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #121212;
+      margin-bottom: 10px;
+    }
+
+    .legal-col p {
+      font-size: 12px;
+      line-height: 1.65;
+      color: #555555;
+    }
+
+    /* ALT ÜÇLÜ NAVİGASYON (Contact | About Us | Legal) */
+    .sub-footer {
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding-top: 24px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .sub-footer a {
+      text-decoration: none;
+      color: #777777;
+      transition: color 0.2s ease;
+    }
+
+    .sub-footer a:hover {
+      color: #121212;
+    }
+
+    .sub-footer a.active-link {
+      color: #121212;
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    .sub-footer span {
+      color: rgba(18, 18, 18, 0.25);
+      user-select: none;
+    }
+
+    /* MOBİL EKRAN KURALLARI */
+    @media (max-width: 768px) {
+      .desktop-menu { display: none !important; }
+      .hamburger-btn { display: block; position: absolute; right: 16px; }
+      .site-header { padding: 0 16px; }
+      .header-left .top-logo { height: 38px; }
+      .header-center h1 { font-size: 11px; letter-spacing: 0.1em; }
+
+      body {
+        background: var(--bg-color);
+      }
+
+      .page-wrapper {
+        padding: 32px 22px 24px 22px;
+      }
+
+      .bg-watermark {
+        width: 240px;
+      }
+
+      .legal-content {
+        gap: 28px;
+      }
+
+      .legal-header h2 {
+        font-size: 19px;
+      }
+
+      .legal-header p {
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .legal-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding-top: 22px;
+      }
+
+      .sub-footer {
+        font-size: 10px;
+        gap: 10px;
+        padding-top: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-left">
+      <a href="../" aria-label="Main Page">
+        <img src="../assets/logo/dartlogoheader.svg?v=3" alt="Dart Logo" class="top-logo">
+      </a>
+    </div>
+    
+    <div class="header-center">
+      <a href="../" aria-label="Main Page">
+        <h1>DART Architecture</h1>
+      </a>
+    </div>
+
+    <div class="header-right desktop-menu">
+      <a href="https://instagram.com/dctrart/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="mailto:info@dctrart.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+      <a href="https://sketch.dctrart.com" target="_blank" aria-label="Dart Sketchbook"><i class="fa-solid fa-pen-nib"></i></a>
+    </div>
+
+    <div class="hamburger-btn" onclick="toggleMobileMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </header>
+
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <a href="https://instagram.com/dctrart/" target="_blank">Instagram</a>
+    <a href="mailto:info@dctrart.com">İletişim</a>
+    <a href="https://sketch.dctrart.com" target="_blank">Dart Sketchbook</a>
+  </div>
+
+  <main class="page-wrapper">
+    <img src="../assets/logo/dartlogoblack.svg" alt="" class="bg-watermark">
+
+    <section class="legal-content">
+      <div class="legal-header">
+        <div class="section-tag">Legal & Intellectual Property</div>
+        <h2>© 2026 DART Architecture. All Rights Reserved.</h2>
+        <p>All architectural designs, 3D visualizations, conceptual drawings, sketches, digital assets, and texts published on this domain are original works protected under national and international copyright laws from the moment of creation.</p>
+      </div>
+
+      <div class="legal-grid">
+        <div class="legal-col">
+          <h3>Brand Identity</h3>
+          <p>The DART Architecture name, dctrart handle, emblem, and bespoke character illustrations are proprietary visual assets. Unauthorized use or imitation is strictly prohibited.</p>
+        </div>
+        <div class="legal-col">
+          <h3>Usage & Reproduction</h3>
+          <p>No part of this website, including renders, CAD files, and graphic compositions, may be copied, modified, or distributed commercially without prior written consent.</p>
+        </div>
+        <div class="legal-col">
+          <h3>Portfolio Notice</h3>
+          <p>Selected works presented in the archive represent conceptual studies, academic theses, or competition entries developed independently by DART Architecture.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="sub-footer">
+      <a href="../contact/">Contact</a>
+      <span>|</span>
+      <a href="../aboutus/">About Us</a>
+      <span>|</span>
+      <a href="./" class="active-link">Legal</a>
+    </footer>
+  </main>
+
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

@@ -158,6 +158,7 @@
       height: calc(100dvh - 48px);
       min-height: 0;
       overflow: hidden;
+      position: relative;
     }
 
     .projects-sidebar {
@@ -213,6 +214,45 @@
       color: #999999;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+    }
+
+    /* SOL PANEL ALT ÜÇLÜ NAVİGASYON (Contact | About Us | Legal) */
+    .sidebar-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40%;
+      padding: 36px 100px 24px 100px;
+      background: linear-gradient(to top, #121212 62%, rgba(18, 18, 18, 0) 100%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 20;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .sidebar-footer a,
+    .sidebar-footer span {
+      pointer-events: auto;
+    }
+
+    .sidebar-footer a {
+      text-decoration: none;
+      color: #777777;
+      transition: color 0.2s ease;
+    }
+
+    .sidebar-footer a:hover {
+      color: #f5f5f7;
+    }
+
+    .sidebar-footer span {
+      color: rgba(245, 245, 247, 0.2);
+      user-select: none;
     }
     
     /* SAĞ VİTRİN */
@@ -319,10 +359,10 @@
       line-height: 1.5;
     }
     .scroll-arrow {
-        display: none;
+      display: none;
     }
 
-    /* MOBİL EKRAN KURALLARI (DİKAY YAPILANDIRMA) */
+    /* MOBİL EKRAN KURALLARI (DİKEY YAPILANDIRMA) */
     @media (max-width: 768px) {
       .desktop-menu { display: none !important; }
       .hamburger-btn { display: block; position: absolute; right: 16px; }
@@ -390,7 +430,7 @@
         width: 100% !important;
         height: 55vh !important;
         flex: 1 !important;
-        padding: 24px 20px !important;
+        padding: 24px 20px 64px 20px !important;
         background-color: #121212 !important;
         direction: ltr !important;
         overflow-y: auto !important;
@@ -426,6 +466,23 @@
       .projects-sidebar:not(:has(.project-item.active)) .project-item {
         display: block !important;
         margin-bottom: 35px !important;
+      }
+
+      .projects-sidebar:not(:has(.project-item.active)) .project-item:last-child {
+        margin-bottom: 24px !important;
+      }
+
+      /* Mobilde alt üçlü bar */
+      .sidebar-footer {
+        width: 100%;
+        padding: 18px 20px 28px 20px;
+        justify-content: center;
+        font-size: 10px;
+        gap: 10px;
+      }
+
+      .projects-container:has(.project-item.active) .sidebar-footer {
+        display: none;
       }
 
       /* Alt menü ok kaydırma sistemi */
@@ -560,7 +617,7 @@
         </div>
       </div>
 
-           <!-- 3. Proje -->
+      <!-- 3. Proje -->
       <div class="project-item">
         <h2>Shaping Future Complex</h2>
         <p>İstanbul - Technology-Education Complex</p>
@@ -580,7 +637,7 @@
         </div>
       </div>
 
-           <!-- 4. Proje -->
+      <!-- 4. Proje -->
       <div class="project-item">
         <h2>Chords & Chore</h2>
         <p>İstanbul - Repurposing of the existing building</p>
@@ -600,7 +657,7 @@
         </div>
       </div>
 
-           <!-- 5. Proje -->
+      <!-- 5. Proje -->
       <div class="project-item">
         <h2>SANUS Etilera</h2>
         <p>İstanbul - Neighborhood Health Center</p>
@@ -620,7 +677,7 @@
         </div>
       </div>
 
-           <!-- 6. Proje -->
+      <!-- 6. Proje -->
       <div class="project-item">
         <h2>Sefarat Exhibition House</h2>
         <p>İstanbul - Concept Exhibiton design</p>
@@ -640,7 +697,7 @@
         </div>
       </div>
 
-           <!-- 7. Proje -->
+      <!-- 7. Proje -->
       <div class="project-item">
         <h2>The Retreat / Heybeliada</h2>
         <p>İstanbul - Luxury Residential Design</p>
@@ -660,7 +717,7 @@
         </div>
       </div>
 
-           <!-- 8. Proje -->
+      <!-- 8. Proje -->
       <div class="project-item">
         <h2>Wu Game House - Cafeteria</h2>
         <p>İstanbul - Concept cafe design</p>
@@ -679,10 +736,17 @@
           </div>
         </div>
       </div>
-      <!-- Diğer projeler de aynı yapıda çoğaltılabilir -->
 
-      
     </div>
+
+    <!-- SOL PANEL ALT ÜÇLÜ NAVİGASYON -->
+    <footer class="sidebar-footer">
+      <a href="../contact/">Contact</a>
+      <span>|</span>
+      <a href="../about/">About Us</a>
+      <span>|</span>
+      <a href="../legal/">Legal</a>
+    </footer>
 
     <!-- SAĞ TARAF: Vitrin -->
     <div class="project-viewer has-logo">
@@ -786,7 +850,7 @@
     setViewerImage(imageSrc);
   }
 
- function scrollSubMenu(button, direction) {
+  function scrollSubMenu(button, direction) {
     const container = button.closest('.sub-menu-container');
     const menu = container.querySelector('.sub-menu');
     if (!menu) return;

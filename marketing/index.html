@@ -160,6 +160,7 @@
       height: calc(100dvh - 48px);
       min-height: 0;
       overflow: hidden;
+      position: relative;
     }
 
     /* ÜST VİTRİN ALANI */
@@ -186,7 +187,7 @@
       border-radius: 10px;
     }
 
-    /* Alt panele yumuşak geçiş gradyanı */
+    /* Alt panele yumuşak geçiş gradyanı (Masaüstü) */
     .marketing-viewer::after {
       content: '';
       position: fixed;
@@ -330,10 +331,10 @@
       min-height: 210px;
       width: 100%;
       background-color: #121212;
-      padding: 28px 80px 32px 80px;
+      padding: 26px 80px 20px 80px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       z-index: 20;
     }
 
@@ -343,6 +344,7 @@
       align-items: flex-start;
       gap: 64px;
       width: 100%;
+      margin: auto 0;
     }
 
     .category-item {
@@ -396,6 +398,34 @@
       margin-top: 10px;
     }
 
+    /* ALT ÜÇLÜ NAVİGASYON (Contact | About Us | Legal) */
+    .marketing-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding-top: 10px;
+    }
+
+    .marketing-footer a {
+      text-decoration: none;
+      color: #777777;
+      transition: color 0.2s ease;
+    }
+
+    .marketing-footer a:hover {
+      color: #f5f5f7;
+    }
+
+    .marketing-footer span {
+      color: rgba(245, 245, 247, 0.2);
+      user-select: none;
+    }
+
     /* MOBİL EKRAN KURALLARI */
     @media (max-width: 768px) {
       .desktop-menu { display: none !important; }
@@ -414,6 +444,19 @@
         height: calc(100dvh - 48px);
       }
 
+      /* Kaydırmadan bağımsız, alt panel sınırına sabit 22px gradyan */
+      .marketing-container::after {
+        content: '';
+        position: absolute;
+        bottom: 243px;
+        left: 0;
+        width: 100%;
+        height: 22px;
+        background: linear-gradient(to bottom, transparent, rgba(18, 18, 18, 0.92));
+        z-index: 15;
+        pointer-events: none;
+      }
+
       /* Üst alan açık zemin ürün vitrini */
       .marketing-viewer {
         flex: 1;
@@ -422,12 +465,9 @@
         align-items: flex-start;
       }
 
+      /* İçerikle birlikte yukarı kayan eski pseudo-elementi kapat */
       .marketing-viewer::after {
-        position: absolute;
-        bottom: 0;
-        height: 20px;
-        background: linear-gradient(to bottom, transparent, rgba(18, 18, 18, 0.9));
-        opacity: 1 !important;
+        display: none !important;
       }
 
       .idle-wrapper {
@@ -443,7 +483,7 @@
       .products-grid {
         grid-template-columns: 1fr;
         gap: 16px;
-        padding-bottom: 12px;
+        padding-bottom: 16px;
       }
 
       /* Alt koyu kategori paneli + alt ölü boşluk */
@@ -458,6 +498,7 @@
       .categories-list {
         flex-direction: column;
         gap: 20px;
+        margin: 0;
       }
 
       .category-item {
@@ -474,6 +515,12 @@
         border-bottom: 1px solid #f5f5f7;
         padding-bottom: 6px;
         margin-bottom: 6px;
+      }
+
+      .marketing-footer {
+        padding-top: 26px;
+        font-size: 10px;
+        gap: 10px;
       }
     }
   </style>
@@ -519,7 +566,7 @@
       <div class="products-grid" id="productsGrid" style="display: none;"></div>
     </section>
 
-    <!-- ALT ALAN: Kategori Başlıkları -->
+    <!-- ALT ALAN: Kategori Başlıkları + Üçlü Navigasyon -->
     <section class="marketing-bottom-bar">
       <div class="categories-list">
         
@@ -542,157 +589,4 @@
         </div>
 
         <div class="category-item" data-category="prints" onclick="selectCategory(this, 'prints')">
-          <h2>Sketches & Prints</h2>
-          <p>Limited Architectural Illustrations</p>
-          <div class="category-desc">Serbest el mimari eskizler ve konsept illüstrasyonların yüksek çözünürlüklü baskıları.</div>
-        </div>
-
-      </div>
-    </section>
-  </main>
-
-<script>
-  function toggleMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    menu.classList.toggle('active');
-  }
-
-  const LOGO_IMAGE = "../assets/logo/dartlogocons.svg";
-
-  // KATEGORİ BAZLI ÜRÜN VERİTABANI
-  const catalogData = {
-    assets: [
-      {
-        title: "Monolith Lounge Chair",
-        format: "Blender / FBX",
-        price: "$14",
-        desc: "Düşük poligonlu, PBR dokulu minimalist ahşap ve keten oturma birimi.",
-        image: "", // Görsel yolu eklendiğinde otomatik yüklenir, boşsa dartlogocons görünür
-        link: "#"
-      },
-      {
-        title: "Brutalist Concrete Table",
-        format: "Blender / OBJ",
-        price: "$12",
-        desc: "Ham beton dokulu yemek ve çalışma masası modeli.",
-        image: "",
-        link: "#"
-      },
-      {
-        title: "Modular Steel Shelving",
-        format: "Blender / FBX",
-        price: "$18",
-        desc: "Çelik konstrüksiyon raf ve sergi ünitesi sistemi.",
-        image: "",
-        link: "#"
-      }
-    ],
-    shaders: [
-      {
-        title: "Anatolian Stone Pack",
-        format: "Cycles 4.0+",
-        price: "$16",
-        desc: "Yerel kesme taş ve traverten yüzeyler için prosedürel materyal paketi.",
-        image: "",
-        link: "#"
-      },
-      {
-        title: "Soft Daylight Studio",
-        format: ".BLEND Preset",
-        price: "$10",
-        desc: "İç mekan renderları için dengeli gün ışığı ve atmosfer kurgusu.",
-        image: "",
-        link: "#"
-      }
-    ],
-    cad: [
-      {
-        title: "Architectural Scale Figures",
-        format: "DWG / AI",
-        price: "$9",
-        desc: "Kesit ve görünüşler için stilize insan figürleri ve peyzaj blokları.",
-        image: "",
-        link: "#"
-      },
-      {
-        title: "Tectonic Hatch Collection",
-        format: "PAT / DWG",
-        price: "$11",
-        desc: "Çelik, ahşap ve yalıtım detayları için özel AutoCAD tarama desenleri.",
-        image: "",
-        link: "#"
-      }
-    ],
-    prints: [
-      {
-        title: "Floating Structures No.01",
-        format: "A3 Archival Print",
-        price: "$25",
-        desc: "Hafif çelik ve asma strüktür eskiz serisinden imzalı baskı.",
-        image: "",
-        link: "#"
-      }
-    ]
-  };
-
-  function selectCategory(element, categoryKey) {
-    const viewer = document.getElementById('marketingViewer');
-    const idleWrapper = document.getElementById('idleWrapper');
-    const productsGrid = document.getElementById('productsGrid');
-    const isAlreadyActive = element.classList.contains('active');
-
-    // Aktif kategoriye tekrar basılırsa bekleme moduna (dartidlewait) dön
-    if (isAlreadyActive) {
-      element.classList.remove('active');
-      productsGrid.classList.remove('visible');
-      setTimeout(() => {
-        productsGrid.style.display = 'none';
-        idleWrapper.style.display = 'flex';
-        viewer.classList.add('is-idle-state');
-      }, 200);
-      return;
-    }
-
-    // Diğer aktif kategoriyi kapat, yenisini aç
-    document.querySelector('.category-item.active')?.classList.remove('active');
-    element.classList.add('active');
-
-    const items = catalogData[categoryKey] || [];
-    
-    productsGrid.classList.remove('visible');
-    idleWrapper.style.display = 'none';
-    viewer.classList.remove('is-idle-state');
-    productsGrid.style.display = 'grid';
-
-    productsGrid.innerHTML = items.map(product => {
-      const hasImage = product.image && product.image.trim() !== '';
-      const imgSrc = hasImage ? product.image : LOGO_IMAGE;
-      const imgClass = hasImage ? '' : 'is-logo';
-
-      return `
-        <a href="${product.link}" target="_blank" class="product-card">
-          <div class="product-thumb">
-            <img src="${imgSrc}" alt="${product.title}" class="${imgClass}" onerror="this.src='${LOGO_IMAGE}'; this.classList.add('is-logo');">
-          </div>
-          <div class="product-info">
-            <div class="product-meta">
-              <span>${product.format}</span>
-              <span class="product-price">${product.price}</span>
-            </div>
-            <h3>${product.title}</h3>
-            <p>${product.desc}</p>
-          </div>
-        </a>
-      `;
-    }).join('');
-
-    // Üst vitrini en başa kaydır ve animasyonla göster
-    viewer.scrollTop = 0;
-    requestAnimationFrame(() => {
-      productsGrid.classList.add('visible');
-    });
-  }
-</script>
-
-</body>
-</html>
+          <h2>Sketches & Prints

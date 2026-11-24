@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DART Architecture - Marketing</title>
+  <meta name="theme-color" content="#121212">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <link rel="icon" type="image/svg+xml" href="../assets/logo/dartlogocons.svg?v=2">
+  <link rel="apple-touch-icon" href="../assets/logo/dartlogocons.svg?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    html {
+      background-color: #121212;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --bg-color: #f5f5f7;
+      --text-color: #121212;
+      --header-bg: #121212;
+    }
+    body {
+      /* Alttan yukarıya koyudan açığa gradyan */
+      background: linear-gradient(to top, #121212 0%, #121212 28%, var(--bg-color) 58%);
+      color: var(--text-color);
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* ÜST HEADER */
+    .site-header {
+      background-color: var(--header-bg);
+      color: #f5f5f7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 48px;
+      flex: 0 0 48px;
+      padding: 0 80px;
+      width: 100%;
+      position: relative;
+      z-index: 100;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      z-index: 2;
+    }
+    
+    .header-left .top-logo {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+    
+    .header-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 1;
+      white-space: nowrap;
+    }
+    
+    .header-center a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .header-center h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      z-index: 2;
+    }
+    
+    .header-right a {
+      color: #f5f5f7;
+      font-size: 16px;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+    
+    .header-right a:hover {
+      opacity: 0.6;
+    }
+
+    /* HAMBURGER MENÜ */
+    .hamburger-btn {
+      display: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .mobile-menu-overlay {
+      position: absolute;
+      top: 48px; 
+      left: 0;
+      width: 100%;
+      background-color: #000000;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease-in-out;
+    }
+
+    .mobile-menu-overlay.active {
+      max-height: 250px;
+      border-top: 1px solid #222;
+    }
+
+    .mobile-menu-overlay a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      margin: 0 24px;
+      padding: 16px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      border-bottom: 1px solid #222;
+      transition: opacity 0.2s ease;
+      text-align: center;
+    }
+    
+    .mobile-menu-overlay a:first-child { margin-top: 8px; }
+    .mobile-menu-overlay a:last-child { border-bottom: none; margin-bottom: 12px; }
+    .mobile-menu-overlay a:hover { opacity: 0.6; }
+
+    /* ANA KONTEYNER (ÜST: VİTRİN, ALT: KATEGORİLER) */
+    .marketing-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: calc(100dvh - 48px);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* ÜST VİTRİN ALANI */
+    .marketing-viewer {
+      flex: 1;
+      width: 100%;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 80px 100px 80px;
+    }
+
+    .marketing-viewer::-webkit-scrollbar {
+      width: 4px;
+    }
+    .marketing-viewer::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .marketing-viewer::-webkit-scrollbar-thumb {
+      background-color: rgba(18, 18, 18, 0.2);
+      border-radius: 10px;
+    }
+
+    /* Alt panele yumuşak geçiş gradyanı */
+    .marketing-viewer::after {
+      content: '';
+      position: fixed;
+      bottom: 28vh;
+      left: 0;
+      width: 100%;
+      height: 110px;
+      background: linear-gradient(to top, #121212 0%, rgba(18, 18, 18, 0.65) 45%, transparent 100%);
+      z-index: 10;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .marketing-viewer.is-idle-state::after {
+      opacity: 0;
+    }
+
+    /* Bekleme Durumu İkonu */
+    .idle-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      transition: opacity 0.25s ease;
+    }
+
+    .idle-wrapper img.is-idle {
+      height: 44vh;
+      width: auto;
+      object-fit: contain;
+      opacity: 0.95;
+    }
+
+    /* ÜRÜN KARTLARI GRID */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
+      justify-content: center;
+      gap: 32px;
+      width: 100%;
+      max-width: 1280px;
+      z-index: 5;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .products-grid.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product-card {
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(18, 18, 18, 0.08);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: #121212;
+      transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+      overflow: hidden;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: #121212;
+      background-color: #ffffff;
+    }
+
+    .product-thumb {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background-color: #ececee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .product-card:hover .product-thumb img:not(.is-logo) {
+      transform: scale(1.03);
+    }
+
+    /* Görseli olmayan ürünler için logo yerleşimi */
+    .product-thumb img.is-logo {
+      width: 34% !important;
+      height: auto !important;
+      object-fit: contain;
+      opacity: 0.8;
+    }
+
+    .product-info {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #777777;
+    }
+
+    .product-price {
+      font-weight: 600;
+      color: #121212;
+    }
+
+    .product-info h3 {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: #121212;
+    }
+
+    .product-info p {
+      font-size: 11px;
+      color: #555555;
+      line-height: 1.45;
+    }
+
+    /* ALT KATEGORİ ALANI */
+    .marketing-bottom-bar {
+      height: 28vh;
+      min-height: 210px;
+      width: 100%;
+      background-color: #121212;
+      padding: 28px 80px 32px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 20;
+    }
+
+    .categories-list {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 64px;
+      width: 100%;
+    }
+
+    .category-item {
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      opacity: 0.5;
+      text-align: left;
+      max-width: 260px;
+    }
+
+    .category-item:hover,
+    .category-item.active {
+      opacity: 1;
+    }
+
+    .category-item h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 4px;
+      letter-spacing: 0.05em;
+      transition: font-size 0.3s ease;
+    }
+
+    .category-item.active h2,
+    .category-item:hover h2 {
+      font-size: 22px;
+    }
+
+    .category-item p {
+      font-size: 11px;
+      color: #999999;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .category-desc {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      font-size: 12px;
+      color: #aaaaaa;
+      line-height: 1.5;
+      margin-top: 0;
+      transition: max-height 0.35s ease, opacity 0.35s ease, margin-top 0.35s ease;
+    }
+
+    .category-item.active .category-desc {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 10px;
+    }
+
+    /* MOBİL EKRAN KURALLARI */
+    @media (max-width: 768px) {
+      .desktop-menu { display: none !important; }
+      .hamburger-btn { display: block; position: absolute; right: 16px; }
+      .site-header { padding: 0 16px; }
+      .header-left .top-logo { height: 38px; }
+      .header-center h1 { font-size: 11px; letter-spacing: 0.1em; }
+
+      body {
+        background: #121212;
+        height: 100dvh;
+        overflow: hidden;
+      }
+
+      .marketing-container {
+        height: calc(100dvh - 48px);
+      }
+
+      /* Üst alan açık zemin ürün vitrini */
+      .marketing-viewer {
+        flex: 1;
+        background-color: #f5f5f7;
+        padding: 20px 16px 32px 16px;
+        align-items: flex-start;
+      }
+
+      .marketing-viewer::after {
+        position: absolute;
+        bottom: 0;
+        height: 20px;
+        background: linear-gradient(to bottom, transparent, rgba(18, 18, 18, 0.9));
+        opacity: 1 !important;
+      }
+
+      .idle-wrapper {
+        height: 100%;
+        align-items: center;
+      }
+
+      .idle-wrapper img.is-idle {
+        height: 65%;
+        max-width: 85%;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding-bottom: 12px;
+      }
+
+      /* Alt koyu kategori paneli + alt ölü boşluk */
+      .marketing-bottom-bar {
+        height: 243px;
+        min-height: 243px;
+        padding: 20px 20px 40px 20px;
+        justify-content: flex-start;
+        overflow-y: auto;
+      }
+
+      .categories-list {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .category-item {
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .category-item h2 {
+        font-size: 16px;
+      }
+
+      .category-item.active h2 {
+        font-size: 19px;
+        border-bottom: 1px solid #f5f5f7;
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-left">
+      <a href="../" aria-label="Main Page">
+        <img src="../assets/logo/dartlogoheader.svg?v=3" alt="Dart Logo" class="top-logo">
+      </a>
+    </div>
+    
+    <div class="header-center">
+      <a href="../" aria-label="Main Page">
+        <h1>DART Architecture</h1>
+      </a>
+    </div>
+
+    <div class="header-right desktop-menu">
+      <a href="https://instagram.com/dctrart/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="mailto:info@dctrart.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+      <a href="https://sketch.dctrart.com" target="_blank" aria-label="Dart Sketchbook"><i class="fa-solid fa-pen-nib"></i></a>
+    </div>
+
+    <div class="hamburger-btn" onclick="toggleMobileMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </header>
+
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <a href="https://instagram.com/dctrart/" target="_blank">Instagram</a>
+    <a href="mailto:info@dctrart.com">İletişim</a>
+    <a href="https://sketch.dctrart.com" target="_blank">Dart Sketchbook</a>
+  </div>
+
+  <main class="marketing-container">
+    <!-- ÜST ALAN: Seçilen Kategorinin Ürünleri -->
+    <section class="marketing-viewer is-idle-state" id="marketingViewer">
+      <div class="idle-wrapper" id="idleWrapper">
+        <img src="../assets/icon/dartidlewait.svg" alt="DART Marketing Preview" class="is-idle">
+      </div>
+      <div class="products-grid" id="productsGrid" style="display: none;"></div>
+    </section>
+
+    <!-- ALT ALAN: Kategori Başlıkları -->
+    <section class="marketing-bottom-bar">
+      <div class="categories-list">
+        
+        <div class="category-item" data-category="assets" onclick="selectCategory(this, 'assets')">
+          <h2>3D Furniture & Assets</h2>
+          <p>Blender / FBX Architectural Models</p>
+          <div class="category-desc">Mimari görselleştirme sahneleri için optimize edilmiş özgün mobilya ve mekan objeleri.</div>
+        </div>
+
+        <div class="category-item" data-category="shaders" onclick="selectCategory(this, 'shaders')">
+          <h2>Shaders & Presets</h2>
+          <p>Cycles Lighting & Material Packs</p>
+          <div class="category-desc">Doğal taş, ham beton ve ahşap dokuları için hazır node kurguları ve ışık setleri.</div>
+        </div>
+
+        <div class="category-item" data-category="cad" onclick="selectCategory(this, 'cad')">
+          <h2>CAD & Diagram Kits</h2>
+          <p>DWG Blocks & Vector Libraries</p>
+          <div class="category-desc">Mimari pafta, kesit ve konsept diyagram anlatımlarını hızlandıran çizim kütüphaneleri.</div>
+        </div>
+
+        <div class="category-item" data-category="prints" onclick="selectCategory(this, 'prints')">
+          <h2>Sketches & Prints</h2>
+          <p>Limited Architectural Illustrations</p>
+          <div class="category-desc">Serbest el mimari eskizler ve konsept illüstrasyonların yüksek çözünürlüklü baskıları.</div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('active');
+  }
+
+  const LOGO_IMAGE = "../assets/logo/dartlogocons.svg";
+
+  // KATEGORİ BAZLI ÜRÜN VERİTABANI
+  const catalogData = {
+    assets: [
+      {
+        title: "Monolith Lounge Chair",
+        format: "Blender / FBX",
+        price: "$14",
+        desc: "Düşük poligonlu, PBR dokulu minimalist ahşap ve keten oturma birimi.",
+        image: "", // Görsel yolu eklendiğinde otomatik yüklenir, boşsa dartlogocons görünür
+        link: "#"
+      },
+      {
+        title: "Brutalist Concrete Table",
+        format: "Blender / OBJ",
+        price: "$12",
+        desc: "Ham beton dokulu yemek ve çalışma masası modeli.",
+        image: "",
+        link: "#"
+      },
+      {
+        title: "Modular Steel Shelving",
+        format: "Blender / FBX",
+        price: "$18",
+        desc: "Çelik konstrüksiyon raf ve sergi ünitesi sistemi.",
+        image: "",
+        link: "#"
+      }
+    ],
+    shaders: [
+      {
+        title: "Anatolian Stone Pack",
+        format: "Cycles 4.0+",
+        price: "$16",
+        desc: "Yerel kesme taş ve traverten yüzeyler için prosedürel materyal paketi.",
+        image: "",
+        link: "#"
+      },
+      {
+        title: "Soft Daylight Studio",
+        format: ".BLEND Preset",
+        price: "$10",
+        desc: "İç mekan renderları için dengeli gün ışığı ve atmosfer kurgusu.",
+        image: "",
+        link: "#"
+      }
+    ],
+    cad: [
+      {
+        title: "Architectural Scale Figures",
+        format: "DWG / AI",
+        price: "$9",
+        desc: "Kesit ve görünüşler için stilize insan figürleri ve peyzaj blokları.",
+        image: "",
+        link: "#"
+      },
+      {
+        title: "Tectonic Hatch Collection",
+        format: "PAT / DWG",
+        price: "$11",
+        desc: "Çelik, ahşap ve yalıtım detayları için özel AutoCAD tarama desenleri.",
+        image: "",
+        link: "#"
+      }
+    ],
+    prints: [
+      {
+        title: "Floating Structures No.01",
+        format: "A3 Archival Print",
+        price: "$25",
+        desc: "Hafif çelik ve asma strüktür eskiz serisinden imzalı baskı.",
+        image: "",
+        link: "#"
+      }
+    ]
+  };
+
+  function selectCategory(element, categoryKey) {
+    const viewer = document.getElementById('marketingViewer');
+    const idleWrapper = document.getElementById('idleWrapper');
+    const productsGrid = document.getElementById('productsGrid');
+    const isAlreadyActive = element.classList.contains('active');
+
+    // Aktif kategoriye tekrar basılırsa bekleme moduna (dartidlewait) dön
+    if (isAlreadyActive) {
+      element.classList.remove('active');
+      productsGrid.classList.remove('visible');
+      setTimeout(() => {
+        productsGrid.style.display = 'none';
+        idleWrapper.style.display = 'flex';
+        viewer.classList.add('is-idle-state');
+      }, 200);
+      return;
+    }
+
+    // Diğer aktif kategoriyi kapat, yenisini aç
+    document.querySelector('.category-item.active')?.classList.remove('active');
+    element.classList.add('active');
+
+    const items = catalogData[categoryKey] || [];
+    
+    productsGrid.classList.remove('visible');
+    idleWrapper.style.display = 'none';
+    viewer.classList.remove('is-idle-state');
+    productsGrid.style.display = 'grid';
+
+    productsGrid.innerHTML = items.map(product => {
+      const hasImage = product.image && product.image.trim() !== '';
+      const imgSrc = hasImage ? product.image : LOGO_IMAGE;
+      const imgClass = hasImage ? '' : 'is-logo';
+
+      return `
+        <a href="${product.link}" target="_blank" class="product-card">
+          <div class="product-thumb">
+            <img src="${imgSrc}" alt="${product.title}" class="${imgClass}" onerror="this.src='${LOGO_IMAGE}'; this.classList.add('is-logo');">
+          </div>
+          <div class="product-info">
+            <div class="product-meta">
+              <span>${product.format}</span>
+              <span class="product-price">${product.price}</span>
+            </div>
+            <h3>${product.title}</h3>
+            <p>${product.desc}</p>
+          </div>
+        </a>
+      `;
+    }).join('');
+
+    // Üst vitrini en başa kaydır ve animasyonla göster
+    viewer.scrollTop = 0;
+    requestAnimationFrame(() => {
+      productsGrid.classList.add('visible');
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -168,7 +168,7 @@
       align-items: center;
       justify-content: center;
       gap: clamp(48px, 7vw, 130px);
-      padding: 0 40px;
+      padding: 0 40px 24px 40px;
       position: relative;
     }
 
@@ -251,6 +251,38 @@
       transform: scale(1.04);
     }
 
+    /* ALT ÜÇLÜ NAVİGASYON (Contact | About Us | Legal) */
+    .home-footer {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 20;
+      white-space: nowrap;
+    }
+
+    .home-footer a {
+      text-decoration: none;
+      color: #777777;
+      transition: color 0.2s ease;
+    }
+
+    .home-footer a:hover {
+      color: #121212;
+    }
+
+    .home-footer span {
+      color: rgba(18, 18, 18, 0.25);
+      user-select: none;
+    }
+
     /* MOBİL EKRAN KURALLARI */
     @media (max-width: 768px) {
       .desktop-menu { display: none !important; }
@@ -266,7 +298,7 @@
       .home-stage {
         flex-direction: column;
         justify-content: center;
-        padding: 24px 20px;
+        padding: 24px 20px 56px 20px;
       }
 
       /* Mobilde karakterleri gizle */
@@ -289,6 +321,12 @@
 
       .main-nav a {
         font-size: 19px;
+      }
+
+      .home-footer {
+        bottom: 20px;
+        font-size: 10px;
+        gap: 10px;
       }
     }
   </style>
@@ -347,6 +385,15 @@
     <div class="character-slot right">
       <img src="assets/icon/char-right.svg" alt="Right Character">
     </div>
+
+    <!-- ALT ÜÇLÜ NAVİGASYON -->
+    <footer class="home-footer">
+      <a href="contact/">Contact</a>
+      <span>|</span>
+      <a href="aboutus/">About Us</a>
+      <span>|</span>
+      <a href="legal/">Legal</a>
+    </footer>
   </main>
 
 <script>

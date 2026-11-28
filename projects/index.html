@@ -325,6 +325,71 @@
       opacity: 0.85;
     }
 
+    /* ÇOKLU GÖRSEL KAYDIRMA (GALLERY SLIDER) */
+    .viewer-slider {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      position: relative;
+      z-index: 2;
+    }
+    .viewer-slider::-webkit-scrollbar {
+      display: none;
+    }
+    .viewer-slider img {
+      position: relative !important;
+      top: auto;
+      left: auto;
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right center;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    .gallery-controls {
+      position: absolute;
+      bottom: 28px;
+      right: 36px;
+      z-index: 15;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: rgba(18, 18, 18, 0.78);
+      backdrop-filter: blur(6px);
+      padding: 7px 14px;
+      border-radius: 2px;
+      color: #f5f5f7;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+    .gallery-controls.visible {
+      display: flex;
+    }
+    .gallery-controls button {
+      background: transparent;
+      border: none;
+      color: #f5f5f7;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 2px 4px;
+      display: flex;
+      align-items: center;
+      transition: opacity 0.2s ease;
+    }
+    .gallery-controls button:hover {
+      opacity: 0.6;
+    }
+
     .project-details {
       max-height: 0;
       overflow: hidden;
@@ -424,6 +489,17 @@
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         object-fit: contain;
+      }
+
+      .viewer-slider img {
+        object-position: center center;
+      }
+
+      .gallery-controls {
+        bottom: 26px;
+        right: 16px;
+        padding: 6px 12px;
+        font-size: 10px;
       }
 
       .projects-sidebar {
@@ -607,12 +683,12 @@
             <ul class="sub-menu">
               <li class="sub-active" onclick="showContent(event, 'Transforming the wind—which once enabled production—into an experience that renders memory visible again, through architecture, landscape, and public space.', '../projects/images/pneuma/diag.webp')">Concept Design</li>
               <li onclick="showContent(event, 'Site plans and sections that adapt to the topographical features of the land.', '../projects/images/pneuma/plan.webp')">Plan</li>
-              <li onclick="showContent(event, 'The fusion of windmills and Pneuma (breath/air), along with views of a wind pavilion that evokes the sensation of the breeze. 3D visualizations that integrate with the surroundings, highlighting the use of natural materials.', '../projects/images/pneuma/r1.webp')">Renders</li>
+              <li onclick="showContent(event, 'The fusion of windmills and Pneuma (breath/air), along with views of a wind pavilion that evokes the sensation of the breeze. 3D visualizations that integrate with the surroundings, highlighting the use of natural materials.', ['../projects/images/pneuma/r1.webp', '../projects/images/pneuma/r2.webp', '../projects/images/pneuma/r3.webp'])">Renders</li>
             </ul>
             <button class="scroll-arrow right" onclick="scrollSubMenu(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
           </div>
           <div class="content-display">
-            <p class="active-text">Doğa ile yapılı çevre arasında geçirgen bir sınır oluşturan yarışma projesi yaklaşımı.</p>
+            <p class="active-text">Transforming the wind—which once enabled production—into an experience that renders memory visible again, through architecture, landscape, and public space.</p>
           </div>
         </div>
       </div>
@@ -750,7 +826,13 @@
 
     <!-- SAĞ TARAF: Vitrin -->
     <div class="project-viewer has-logo">
-      <img src="../assets/icon/dartidlewait.svg" alt="Project Preview" class="is-idle">
+      <img src="../assets/icon/dartidlewait.svg" alt="Project Preview" class="is-idle" id="singleViewerImg">
+      <div class="viewer-slider" id="viewerSlider" style="display: none;"></div>
+      <div class="gallery-controls" id="galleryControls">
+        <button type="button" onclick="slideViewer(-1)" aria-label="Previous image"><i class="fa-solid fa-chevron-left"></i></button>
+        <span id="galleryCounter">01 / 03</span>
+        <button type="button" onclick="slideViewer(1)" aria-label="Next image"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
     </div>
   </main>
 
@@ -765,16 +847,54 @@
 
   function setViewerImage(src) {
     const viewer = document.querySelector('.project-viewer');
-    const viewerImg = document.querySelector('.project-viewer img');
+    const viewerImg = document.getElementById('singleViewerImg');
+    const slider = document.getElementById('viewerSlider');
+    const controls = document.getElementById('galleryControls');
+    const counter = document.getElementById('galleryCounter');
     if (!viewerImg || !viewer) return;
 
-    let targetSrc = src;
+    // Birden fazla görsel (dizi) gönderildiyse kaydırılabilir galeriyi aç
+    if (Array.isArray(src) && src.length > 1) {
+      viewerImg.style.display = 'none';
+      viewer.classList.remove('has-logo');
+
+      slider.innerHTML = src.map((imgPath, i) => `
+        <img src="${imgPath}" alt="Project Render ${i + 1}" onerror="this.src='${LOGO_IMAGE}';">
+      `).join('');
+
+      slider.style.display = 'flex';
+      slider.scrollLeft = 0;
+
+      const totalStr = String(src.length).padStart(2, '0');
+      counter.textContent = `01 / ${totalStr}`;
+      controls.classList.add('visible');
+
+      slider.onscroll = () => {
+        const idx = Math.round(slider.scrollLeft / slider.clientWidth);
+        const currentStr = String(Math.min(Math.max(idx + 1, 1), src.length)).padStart(2, '0');
+        counter.textContent = `${currentStr} / ${totalStr}`;
+      };
+      return;
+    }
+
+    // Tek görsel veya dizi içinde 1 eleman varsa normal moda dön
+    if (slider) {
+      slider.style.display = 'none';
+      slider.innerHTML = '';
+    }
+    if (controls) {
+      controls.classList.remove('visible');
+    }
+    viewerImg.style.display = 'block';
+
+    const singleSrc = Array.isArray(src) ? src[0] : src;
+    let targetSrc = singleSrc;
     let mode = 'image';
 
-    if (src === 'idle' || src === IDLE_IMAGE) {
+    if (singleSrc === 'idle' || singleSrc === IDLE_IMAGE) {
       targetSrc = IDLE_IMAGE;
       mode = 'idle';
-    } else if (!src || typeof src !== 'string' || src.trim() === '' || src === LOGO_IMAGE) {
+    } else if (!singleSrc || typeof singleSrc !== 'string' || singleSrc.trim() === '' || singleSrc === LOGO_IMAGE) {
       targetSrc = LOGO_IMAGE;
       mode = 'logo';
     }
@@ -808,6 +928,28 @@
       viewerImg.style.opacity = '0.85';
     };
   }
+
+  function slideViewer(direction) {
+    const slider = document.getElementById('viewerSlider');
+    if (!slider) return;
+    const total = slider.children.length;
+    if (total <= 1) return;
+    const currentIndex = Math.round(slider.scrollLeft / slider.clientWidth);
+    let nextIndex = currentIndex + direction;
+    if (nextIndex < 0) nextIndex = total - 1;
+    if (nextIndex >= total) nextIndex = 0;
+    slider.scrollTo({
+      left: nextIndex * slider.clientWidth,
+      behavior: 'smooth'
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const controls = document.getElementById('galleryControls');
+    if (!controls || !controls.classList.contains('visible')) return;
+    if (e.key === 'ArrowLeft') slideViewer(-1);
+    if (e.key === 'ArrowRight') slideViewer(1);
+  });
 
   const projectItems = document.querySelectorAll('.project-item');
 
